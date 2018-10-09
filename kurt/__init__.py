@@ -203,8 +203,7 @@ class Project(object):
         """The username of the project's author, eg. ``'blob8108'``."""
 
     def __repr__(self):
-        return "<%s.%s()>" % (self.__class__.__module__,
-                self.__class__.__name__)
+        return "<()>"
 
     def get_sprite(self, name):
         """Get a sprite from :attr:`sprites` by name.
@@ -536,8 +535,7 @@ class UnsupportedFeature(object):
         self.obj = obj
 
     def __repr__(self):
-        return "<%s.%s(%s)>" % (self.__class__.__module__,
-                self.__class__.__name__, unicode(self))
+        return "<(%s)>" % (unicode(self))
 
     def __str__(self):
         return "UnsupportedFeature: %s" % unicode(self)
@@ -748,8 +746,7 @@ class Stage(Scriptable):
         self.costumes = value
 
     def __repr__(self):
-        return "<%s.%s()>" % (self.__class__.__module__,
-                self.__class__.__name__)
+        return "<()>"
 
     def _normalize(self):
         if not self.costume and not self.costumes:
@@ -835,8 +832,7 @@ class Sprite(Scriptable, Actor):
         return o
 
     def __repr__(self):
-        return "<%s.%s(%r)>" % (self.__class__.__module__,
-                self.__class__.__name__, self.name)
+        return "<(%r)>" % (self.name)
 
 
 class Watcher(Actor):
@@ -955,8 +951,7 @@ class Watcher(Actor):
             return self.target.lists[self.block.args[0]]
 
     def __repr__(self):
-        r = "%s.%s(%r, %r" % (self.__class__.__module__,
-                self.__class__.__name__, self.target, self.block)
+        r = "(%r, %r" % (self.target, self.block)
         if self.style != "normal":
             r += ", style=%r" % self.style
         if not self.is_visible:
@@ -1004,8 +999,7 @@ class Variable(object):
         return self.__class__(self.value, self.is_cloud)
 
     def __repr__(self):
-        r = "%s.%s(%r" % (self.__class__.__module__, self.__class__.__name__,
-                self.value)
+        r = "(%r" % (self.value)
         if self.is_cloud:
             r += ", is_cloud=%r" % self.is_cloud
         r += ")"
@@ -1048,8 +1042,7 @@ class List(object):
         return self.__class__(self.items, self.is_cloud)
 
     def __repr__(self):
-        r = "<%s.%s(%i items)>" % (self.__class__.__module__,
-                self.__class__.__name__, len(self.items))
+        r = "<(%i items)>" % (len(self.items))
         if self.is_cloud:
             r += ", is_cloud=%r" % self.is_cloud
         r += ")"
@@ -1117,8 +1110,7 @@ class Color(object):
         return iter(self.value)
 
     def __repr__(self):
-        return "%s.%s(%s)" % (self.__class__.__module__,
-                self.__class__.__name__, repr(self.value).strip("()"))
+        return "(%s)" % (repr(self.value).strip("()"))
 
     def stringify(self):
         """Returns the color value in hexcode format.
@@ -1315,8 +1307,7 @@ class Insert(object):
         """
 
     def __repr__(self):
-        r = "%s.%s(%r" % (self.__class__.__module__,
-                self.__class__.__name__, self.shape)
+        r = "(%r" % (self.shape)
         if self.kind != None:
             r += ", %r" % self.kind
         if self.default != Insert.SHAPE_DEFAULTS.get(self.shape, None):
@@ -1500,8 +1491,7 @@ class BaseBlockType(object):
         return text.lower()
 
     def __repr__(self):
-        return "<%s.%s(%r shape=%r)>" % (self.__class__.__module__,
-                self.__class__.__name__,
+        return "<(%r shape=%r)>" % (
                 self.text % tuple(i.stringify(None) for i in self.inserts),
                 self.shape)
 
@@ -1863,8 +1853,7 @@ class Block(object):
         return not self == other
 
     def __repr__(self):
-        string = "%s.%s(%s, " % (self.__class__.__module__,
-                self.__class__.__name__,
+        string = "(%s, " % (
                 repr(self.type.convert().command if isinstance(self.type,
                     BlockType) else self.type))
         for arg in self.args:
@@ -1941,8 +1930,7 @@ class Script(object):
         return not self == other
 
     def __repr__(self):
-        r = "%s.%s([\n" % (self.__class__.__module__,
-                self.__class__.__name__)
+        r = "([\n"
         for block in self.blocks:
             r += "    " + repr(block).replace("\n", "\n    ") + ",\n"
         r = r.rstrip().rstrip(",") + "]"
@@ -1994,8 +1982,7 @@ class Comment(object):
         return self.__class__(self.text, tuple(self.pos) if self.pos else None)
 
     def __repr__(self):
-        r = "%s.%s(%r" % (self.__class__.__module__,
-                self.__class__.__name__, self.text)
+        r = "(%r" % (self.text)
         if self.pos:
             r += ", pos=%r" % (self.pos,)
         return r + ")"
@@ -2074,8 +2061,8 @@ class Costume(object):
         self.image = self.image.resize(size)
 
     def __repr__(self):
-        return "<%s.%s name=%r rotation_center=%d,%d at 0x%X>" % (
-            self.__class__.__module__, self.__class__.__name__, self.name,
+        return "<name=%r rotation_center=%d,%d at 0x%X>" % (
+            self.name,
             self.rotation_center[0], self.rotation_center[1], id(self)
         )
 
@@ -2371,8 +2358,7 @@ class Sound(object):
         return self.waveform.save(path)
 
     def __repr__(self):
-        return "<%s.%s name=%r at 0x%X>" % (self.__class__.__module__,
-                self.__class__.__name__, self.name, id(self))
+        return "<name=%r at 0x%X>" % (self.name, id(self))
 
 
 class Waveform(object):
