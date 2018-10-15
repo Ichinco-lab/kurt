@@ -82,15 +82,28 @@ class KurtToCSV:
 	"""returns the number of blocks in a script"""
 	#must be refactored
 	def KurtToCSVgetScriptLength(self,script):
-		return len(script)
+		scriptString = script.__repr__()
+		lines = scriptString.splitlines()
+		numLines = len(lines)
+		for line in lines:
+			if "doRepeat" in line:
+				numLines -= 1
+			if "doIfElse" in line:
+				numLines -= 4
+			elif "doIf" in line:
+				numLines -= 2
+			if "doUntil" in line:
+				numLines -= 2
+		return numLines - 1
 		
 		
 	"""returns the maximum level of nesting found in a script"""
 	#TO DO	
 	def KurtToCSVgetScriptNestLevel(self,script):
-		#2 potential methods:
+		#3 potential methods:
 		#either use a recursie function to keep track of nesting
 		#or find nesting based on indentation (kurt uses 4 spaces)
+		#or figure out if kurt has a built in way to determine number of blocks
 		return 0
 
 
@@ -133,10 +146,14 @@ else:
 In the example above, the if else statement is stored within the script as a
 single block
 
-2. refactor the getScriptLength function due to finding the issues documented
-	directly above after initially coding said function
-3. either makea to string that doesn't use ',' or edit the __repr__ functions
-	to do the same
+2. continue refactor the getScriptLength function due to finding the issues 
+	documented directly above after initially coding said function 
+	--improved by counting the new lines. Should work much better 
+	than the previous version although still needs tweaking due to being slightly
+	off in control statements. (some use different amounts of newlines when
+	they have blocks inside them than if not) To be clear, this could be fixed
+	if I tested to see if a line contains a block keyword but this seems 
+	inefficient and there is most certainly a better way.--
 """
 
 
