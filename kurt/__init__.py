@@ -1862,15 +1862,15 @@ class Block(object):
                 string += "\n    %s,\n" % repr(arg).replace("\n", "\n    ")
             elif isinstance(arg, list):
                 if string.endswith("\n"):
-                    string += "    "
+                    string += "	"#changed 4 spaces to tab char
                 else:
                     string += " "
                 string += "[\n"
                 for block in arg:
-                    string += "    "
+                    string += "	"#changed 4 spaces to tab char
                     string += repr(block).replace("\n", "\n    ")
                     string += ",\n"
-                string += "    ], "
+                string += "	], "#changed 4 spaces to tab char
             else:
                 string += repr(arg) + ", "
         string = string.rstrip(" ").rstrip(",")
@@ -1932,8 +1932,8 @@ class Script(object):
     def __repr__(self):
         r = "([\n"
         for block in self.blocks:
-            r += "    " + repr(block).replace("\n", "\n    ") + ",\n"
-        r = r.rstrip().rstrip(",") + "]"
+            r += "	" + repr(block).replace("\n", "\n	") + ",\n"
+        r = r.rstrip().rstrip(",") + "]"#changed 4 spaces to tab char
         if self.pos:
             r += ", pos=%r" % (self.pos,)
         return r + ")"
