@@ -407,30 +407,3 @@ class KurtToCSV:
 blockCounts = {'movements':0, 'looks':0, 'sounds':0, 'pens':0, 'datas':0, 'events':0, 'controls':0, 'sensing':0, 'operators':0}
 
 
-
-""" TO DO/ BUGS
-1. Calculate levels of nesting. This is complicated by the fact that any nested
-block segment only counts as 1 block ex.
-if x:
-	block1
-	block2
-	...
-else:
-	block3
-	block4
-	...
-	
-In the example above, the if else statement is stored within the script as a
-single block
-
-2. continue refactor the getScriptLength function due to finding the issues 
-	documented directly above after initially coding said function 
-	--improved by counting the new lines. Should work much better 
-	than the previous version although still needs tweaking due to being slightly
-	off in control statements. (some use different amounts of newlines when
-	they have blocks inside them than if not) To be clear, this could be fixed
-	if I tested to see if a line contains a block keyword but this seems 
-	inefficient and there is most certainly a better way.--
-"""
-
-
