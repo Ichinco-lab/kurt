@@ -336,9 +336,9 @@ class KurtToCSV:
 	"""returns an array. for each script in the sprite there is an entry
 	within the array which includes the function name if the script is a
 	function or NULL otherwise"""
-	def KurtToCSVgetFunctions(sprite):
+	def KurtToCSVgetFunctions(self, sprite):
 		functions = []
-		for script in sprite:
+		for script in sprite.scripts:
 			functions.append(self.KurtToCSVgetFunctionName(script))
 			"""tempstr = script[0].__repr__()
 			funcDef = "procDef"
@@ -349,14 +349,14 @@ class KurtToCSV:
 				functions.append("NULL")"""
 		return functions
 	"""return an array with the amount of times each function is called within a sprite"""
-	def KurtToCSVgetFunctionCounts(functions, sprite):
+	def KurtToCSVgetFunctionCounts(self, functions, sprite):
 		functionCounts = []
 		#init all values of array to -1. This does 2 things
 		#1. non functions will remain counted as -1 calls
 		#2. actual functions will have a minimum of 0 calls
 		for x in range(len(functions)):
 			functionCounts.append(-1)
-		for script in sprite:
+		for script in sprite.scripts:
 			scriptString = script.__repr__().split()
 			for word in scriptString:
 				for i in range(len(functions)):
@@ -379,31 +379,41 @@ class KurtToCSV:
 		for sprite in project.sprites + [project.stage]:
 			scriptCounter = 0
 
-			#functions = self.KurtToCSVgetFunctions(sprite)
-			#functionCounts = self.KurtToCSVgetFunctionCounts(functions ,sprite)
+			functions = self.KurtToCSVgetFunctions(sprite)
+			functionCounts = self.KurtToCSVgetFunctionCounts(functions ,sprite)
 			
 			for script in sprite.scripts:	
+				#fields useful to identify the script specifically
 				line = self.KurtToCSVgetFileName(project) + ","
 				line += self.KurtToCSVgetSpriteName(sprite) + ","
 				line += self.KurtToCSVSpriteOrBackground(sprite) + ","
 				line += str(scriptCounter) + ","
+				
+				#determines the activation condition of a script
 				line += self.KurtToCSVgetEvent(script) + ","
+				
+				#determines how many levels of nesting were used in a script
 				line += str(self.KurtToCSVgetScriptNestLevel(script)) + ","
+				
+				#counts the amount of times a type of block was used
+				#does this for all block types
 				line += self.KurtToCSVgetBlocks(script)
-				#line += str(self.KurtToCSVgetNumMovementBlocks(script)) + ","
-				#line += str(self.KurtToCSVgetNumLookBlocks(script)) + ","
-				#line += str(self.KurtToCSVgetNumSoundBlocks(script)) + ","
-				#line += str(self.KurtToCSVgetNumPenBlocks(script)) + ","
-				line += str(self.KurtToCSVgetScriptLength(script)) + ","			
+				
+				#determines the total number of blocks in a script
+				line += str(self.KurtToCSVgetScriptLength(script)) + ","
+				
+				#determines the function name of a script if applicable	
 				line += functions[scriptCounter] + ","
+				#finds out how many times a function is called
 				line += str(functionCounts[scriptCounter]) + ","
+				
+				#returns where a script is physically located in the editor
 				line += self.KurtToCSVgetXPosition(script) + ","
 				line += self.KurtToCSVgetYPosition(script) + ","
+				
+				#returns the actual script
 				line += '"'+ self.KurtToCSVgetScriptString(script) + '"\n'
 				f.write(line)
 				scriptCounter += 1
 		f.close()
 		return
-blockCounts = {'movements':0, 'looks':0, 'sounds':0, 'pens':0, 'datas':0, 'events':0, 'controls':0, 'sensing':0, 'operators':0}
-
-
