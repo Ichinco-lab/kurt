@@ -1,0 +1,64 @@
+project,object,backgroundOrSprite,script_id,event,levelsOfNesting,numberOfMovementBlocks,lengthOfScript,script
+testFile1,Sprite1,SPRITE,0,whenGreenFlag,0,14,16,"([
+    ('whenGreenFlag'),
+    ('say:duration:elapsed:from:', u'Hello!', 2),
+    ('forward:', 10),
+    ('turnRight:', 15),
+    ('turnLeft:', 15),
+    ('heading:', 90),
+    ('pointTowards:', 'mouse-pointer'),
+    ('gotoX:y:', 0, 0),
+    ('gotoSpriteOrMouse:', 'mouse-pointer'),
+    ('glideSecs:toX:y:elapsed:from:', 1, 0, 0),
+    ('changeXposBy:', 10),
+    ('xpos:', 0),
+    ('changeYposBy:', 10),
+    ('ypos:', 0),
+    ('bounceOffEdge'),
+    ('setRotationStyle', u'left-right')], pos=(203, 45))"
+testFile1,Sprite1,SPRITE,1,whenGreenFlag,0,2,7,"([
+    ('whenGreenFlag'),
+    ('doIf', 
+        ('=', u'', u''),
+    None),
+    ('doIfElse', 
+        ('=', u'0', u'1'),
+        [
+        ('forward:', 10),
+        ],  [
+        ('doIf', 
+            ('=', u'0', u'0'),
+            [
+            ('forward:', 10),
+            ]),
+        ])], pos=(748, 46))"
+testFile1,Sprite1,SPRITE,2,whenGreenFlag,0,0,2,"([
+    ('whenGreenFlag'),
+    ('playSound:', u'meow')], pos=(368, 47))"
+testFile1,Sprite1,SPRITE,3,whenKeyPressed,0,0,2,"([
+    ('whenKeyPressed', u'space'),
+    ('stopScripts', u'all')], pos=(538, 53))"
+testFile1,Sprite1,SPRITE,4,whenGreenFlag,0,3,9,"([
+    ('whenGreenFlag'),
+    ('doRepeat', 10, None),
+    ('doRepeat', 10,  [
+        ('forward:', 10),
+        ]),
+    ('doIf', 
+        ('=', u'', u''),
+    None),
+    ('doIfElse', 
+        ('=', u'', u''),
+        [
+        ('forward:', 10),
+        ],  [
+        ('turnRight:', 15),
+        ]),
+    ('doUntil', 
+        ('=', u'  2', u'2'),
+    None),
+    ('doForever', None)], pos=(586, 267))"
+testFile1,Stage,STAGE,0,whenGreenFlag,0,0,1,"([
+    ('whenGreenFlag')], pos=(127, 21))"
+testFile1,Stage,STAGE,1,whenSceneStarts,0,0,1,"([
+    ('whenSceneStarts', u'backdrop1')], pos=(500, 35))"
