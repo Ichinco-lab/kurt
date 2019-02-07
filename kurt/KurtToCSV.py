@@ -126,93 +126,6 @@ class KurtToCSV:
 				
 		return defScript			
 	
-	"""returns the number of pen blocks in a script"""	
-	def KurtToCSVgetNumPenBlocks(self, script):
-		pen = 0
-		className = script.__class__.__name__
-		comment = "'Comment'"
-		if className.__repr__() == comment:
-			return "NULL"
-		for block in script:
-			pen += self.KurtToCSVisPenBlock(block)
-		return pen		
-		
-
-	"""helper function returns true if a block is a pen block
-		returns false otherise"""
-	def KurtToCSVisPenBlock(self,block):
-		penBlocks = {'pen', 'Pen', 'stampCostume'}	
-		count = 0	
-		strBlock = block.__repr__()	
-		for penBlock in penBlocks:
-			count += self.KurtToCSVfindNumInstancesInStr(strBlock,penBlock)
-		return count
-		
-	"""returns the number of Sound blocks in a script"""	
-	def KurtToCSVgetNumSoundBlocks(self, script):
-		sound = 0
-		className = script.__class__.__name__
-		comment = "'Comment'"
-		if className.__repr__() == comment:
-			return "NULL"
-		for block in script:
-			sound += self.KurtToCSVisSoundBlock(block)
-		return sound		
-		
-
-	"""helper function returns true if a block is a sound block
-		returns false otherise"""
-	def KurtToCSVisSoundBlock(self,block):
-		sounds = {'laySound:', 'doPlaySoundAndWait', 'stopAllSounds', 'layDrum', 'rest:elapsed:from:', 'noteOn:duration:elapsed:from:', 'instrument:', 'changeVolumeBy:', 'setVolumeTo:', 'changeTempoBy:', 'setTempoTo:'}	
-		count = 0	
-		strBlock = block.__repr__()	
-		for sound in sounds:
-			count += self.KurtToCSVfindNumInstancesInStr(strBlock,sound)
-		return count
-		
-	"""returns the number of Looks blocks in a script"""	
-	def KurtToCSVgetNumLookBlocks(self, script):
-		look = 0
-		className = script.__class__.__name__
-		comment = "'Comment'"
-		if className.__repr__() == comment:
-			return "NULL"
-		for block in script:
-			look += self.KurtToCSVisLookBlock(block)
-		return look		
-		
-
-	"""helper function returns true if a block is a look block
-		returns false otherise"""
-	def KurtToCSVisLookBlock(self,block):
-		looks = {'say:', 'think:', 'show', 'hide', 'lookLike:', 'nextCostume', 'startScene', 'changeGraphicEffect:', 'setGraphicEffect:', 'filterReset', 'changeSizeBy:', 'setSizeTo:', 'comeToFront', 'goBackByLayers:'}	
-		count = 0	
-		strBlock = block.__repr__()	
-		for look in looks:
-			count += self.KurtToCSVfindNumInstancesInStr(strBlock,look)
-		return count
-
-	"""returns the number of movement blocks in a script"""
-	def KurtToCSVgetNumMovementBlocks(self, script):
-		movement = 0
-		className = script.__class__.__name__
-		comment = "'Comment'"
-		if className.__repr__() == comment:
-			return "NULL"
-		for block in script:
-			movement += self.KurtToCSVisMovementBlock(block)
-		return movement		
-		
-
-	"""helper function returns true if a block is a movement block
-		returns false otherise"""
-	def KurtToCSVisMovementBlock(self,block):
-		movements = {'forward:', 'turnRight:', 'turnLeft:', 'heading:', 'pointTowards:', 'gotoX:y:', 'gotoSpriteOrMouse:', 'glideSecs:toX:y:elapsed:from:', 'changeXposBy:', 'xpos:', 'changeYposBy:', 'ypos:', 'bounceOffEdge', 'setRotationStyle'}	
-		count = 0	
-		strBlock = block.__repr__()	
-		for movement in movements:
-			count += self.KurtToCSVfindNumInstancesInStr(strBlock,movement)
-		return count
 		
 	"""returns the number of times a given movement is contained 
 	within a block"""
@@ -222,7 +135,6 @@ class KurtToCSV:
 		for word in words:
 			if movement in word:
 				count += 1
-				#print word #used solely for testing
 		return count  
 	
 
@@ -259,7 +171,6 @@ class KurtToCSV:
 		return yPos
 
 	"""returns the number of blocks in a script"""
-	#must be refactored
 	def KurtToCSVgetScriptLength(self,script):
 		scriptString = script.__repr__()
 		scriptLength = -2
@@ -267,27 +178,10 @@ class KurtToCSV:
 			if scriptString[i] == '(':
 				scriptLength += 1
 		return scriptLength
-		"""lines = scriptString.splitlines()
-		numLines = len(lines)
-		for line in lines:
-			if "doRepeat" in line:
-				numLines -= 1
-			if "doIfElse" in line:
-				numLines -= 4
-			elif "doIf" in line:
-				numLines -= 2
-			if "doUntil" in line:
-				numLines -= 2
-		return numLines - 1"""
 		
 		
 	"""returns the maximum level of nesting found in a script"""
-	#TO DO	
 	def KurtToCSVgetScriptNestLevel(self,script):
-		#3 potential methods:
-		#either use a recursie function to keep track of nesting
-		#or find nesting based on indentation (currently 1 tab)
-		#or figure out if kurt has a built in way to determine number of blocks
 		maxNesting = -1
 		tempNesting = -1
 		strScript = script.__repr__()
@@ -299,7 +193,13 @@ class KurtToCSV:
 					maxNesting = tempNesting
 				tempNesting -= 1
 		return maxNesting
-	
+	"""function assumes you began at the first single quote and takes every character
+	after it until the next single quote
+
+	for example:
+
+	given string "stuff='Hello World!'", if you called KurtToCSVgetToken(string,6)
+	then the return string would be "Hello World" """
 	def KurtToCSVgetToken(self,string,index):
 		token = ""		
 		endIndex = index+1
@@ -307,6 +207,7 @@ class KurtToCSV:
 			token += string[endIndex]
 			endIndex += 1
 		return token
+
 	"""returns a formatted string of a script"""
 	def KurtToCSVgetScriptString(self, script):
 		unwantedCharacters = {'[',']','(',')','{','}'}		
@@ -375,7 +276,6 @@ class KurtToCSV:
 		f = open(toFile, mode)
 		if mode == 'w':
 			f.write("project,object,backgroundOrSprite,script_id,event," + "levelsOfNesting,numberOfMovementBlocks,numberOfLookBlocks," + "numberOfSoundBlocks,numberOfPenBlocks,numberOfDataBlocks," + "numberOfEventBlocks,numberOfControlBlocks,numberOfSensingBlocks," + "numberOfOperatorBlocks,lengthOfScript,function,timesCalled,xPos,yPos,script\n")
-			#f.write("project,object,backgroundOrSprite,script_id,event," + "levelsOfNesting,numberOfMovementBlocks,numberOfLookBlocks," + "numberOfSoundBlocks,numberOfPenBlocks,numberOfDataBlocks," + "numberOfEventBlocks,numberOfControlBlocks,numberOfSensingBlocks," + "numberOfOperatorBlocks,lengthOfScript,function,timesCalled,xPos,yPos,script\n")
 		for sprite in project.sprites + [project.stage]:
 			scriptCounter = 0
 
