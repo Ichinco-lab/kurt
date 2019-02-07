@@ -18,17 +18,18 @@
 """Primitive fixed-format objects - eg String, Dictionary."""
 
 import PIL
-
+#import pkg_resources
+#pkg_resources.require("construct==2.5.0")
 from array import array # used by Form
 from copy import copy
 import itertools
 import operator
-
 from construct import Container, Struct, Embed, Rename
 from construct import PascalString, UBInt32, SBInt32, UBInt16, UBInt8, Bytes
 from construct import BitStruct, Padding, Bits
 from construct import Value, Switch, If, IfThenElse, OptionalGreedyRepeater
 from construct import Array as StrictRepeater, Array as MetaRepeater
+
 # We can't import the name Array, as we use it. -_-
 import construct
 

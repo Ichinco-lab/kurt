@@ -1,0 +1,261 @@
+project,object,backgroundOrSprite,script_id,event,levelsOfNesting,numberOfMovementBlocks,numberOfLookBlocks,numberOfSoundBlocks,numberOfPenBlocks,numberOfDataBlocks,numberOfEventBlocks,numberOfControlBlocks,numberOfSensingBlocks,numberOfOperatorBlocks,lengthOfScript,function,timesCalled,xPos,yPos,script
+testFile1,Sprite1,SPRITE,0,whenGreenFlag,0,0,1,0,0,0,0,1,0,14,16,NULL,-1,203, 45,"
+	'whenGreenFlag',
+	'say:duration:elapsed:from:', 'Hello!', 2,
+	'forward:', 10,
+	'turnRight:', 15,
+	'turnLeft:', 15,
+	'heading:', 90,
+	'pointTowards:', 'mouse-pointer',
+	'gotoX:y:', 0, 0,
+	'gotoSpriteOrMouse:', 'mouse-pointer',
+	'glideSecs:toX:y:elapsed:from:', 1, 0, 0,
+	'changeXposBy:', 10,
+	'xpos:', 0,
+	'changeYposBy:', 10,
+	'ypos:', 0,
+	'bounceOffEdge',
+	'setRotationStyle', 'left-right'"
+testFile1,Sprite1,SPRITE,1,whenGreenFlag,2,0,0,3,0,3,0,1,0,2,9,NULL,-1,748, 46,"
+	'whenGreenFlag',
+	'doIf', 
+	    '=', '', '',
+	None,
+	'doIfElse', 
+	    '=', '0', '1',
+		
+		'forward:', 10,
+		,  
+		'doIf', 
+	        '=', '0', '0',
+	    	
+	    	'forward:', 10,
+	    	,
+		"
+testFile1,Sprite1,SPRITE,2,whenGreenFlag,0,0,0,0,1,0,0,1,0,0,2,NULL,-1,368, 47,"
+	'whenGreenFlag',
+	'playSound:', 'meow'"
+testFile1,Sprite1,SPRITE,3,whenKeyPressed,0,0,0,0,0,1,0,1,0,0,2,NULL,-1,538, 53,"
+	'whenKeyPressed', 'space',
+	'stopScripts', 'all'"
+testFile1,Sprite1,SPRITE,4,whenGreenFlag,1,0,1,3,0,5,0,1,0,3,14,NULL,-1,586, 267,"
+	'whenGreenFlag',
+	'doRepeat', 10, None,
+	'doRepeat', 10,  
+		'forward:', 10,
+		,
+	'doIf', 
+	    '=', '', '',
+	None,
+	'doIfElse', 
+	    '=', '', '',
+		
+		'forward:', 10,
+		,  
+		'turnRight:', 15,
+		,
+	'doUntil', 
+	    '=', '  2', '2',
+		
+		'lookLike:', 'costume2',
+		,
+	'doForever', None"
+testFile1,Sprite1,SPRITE,5,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,,-1,NULL,0,NULL,-1,395, 280,"'uh oh'"
+testFile1,Sprite1,SPRITE,6,whenClicked,0,0,0,0,0,0,0,1,0,0,1,NULL,-1,224, 446,"
+	'whenClicked'"
+testFile1,Sprite1,SPRITE,7,whenKeyPressed,0,0,0,0,0,0,0,1,0,0,1,NULL,-1,30, 450,"
+	'whenKeyPressed', 'space'"
+testFile1,Sprite1,SPRITE,8,whenClicked,0,0,0,0,0,0,0,1,0,0,1,NULL,-1,224, 499,"
+	'whenClicked'"
+testFile1,Sprite1,SPRITE,9,whenClicked,0,0,0,0,0,0,0,1,0,0,1,NULL,-1,27, 507,"
+	'whenClicked'"
+testFile1,Sprite1,SPRITE,10,whenSensorGreaterThan,0,0,0,0,0,0,0,1,0,0,1,NULL,-1,307, 570,"
+	'whenSensorGreaterThan', 'loudness', 10"
+testFile1,Sprite1,SPRITE,11,whenSceneStarts,0,0,0,0,0,0,0,1,0,0,1,NULL,-1,16, 576,"
+	'whenSceneStarts', 'backdrop1'"
+testFile1,Sprite1,SPRITE,12,whenIReceive,0,0,0,0,0,0,0,1,0,0,1,NULL,-1,21, 638,"
+	'whenIReceive', 'message1'"
+testFile1,Baseball,SPRITE,0,NULL,0,0,16,0,0,0,0,0,0,0,16,NULL,-1,201, 119,"
+	'say:duration:elapsed:from:', 'Hello!', 2,
+	'say:', 'Hello!',
+	'think:duration:elapsed:from:', 'Hmm...', 2,
+	'think:', 'Hmm...',
+	'show',
+	'hide',
+	'lookLike:', 'baseball',
+	'nextCostume',
+	'startScene', 'backdrop1',
+	'changeGraphicEffect:by:', 'color', 25,
+	'setGraphicEffect:to:', 'color', 0,
+	'filterReset',
+	'changeSizeBy:', 10,
+	'setSizeTo:', 100,
+	'comeToFront',
+	'goBackByLayers:', 1"
+testFile1,Baseball,SPRITE,1,NULL,0,0,1,0,0,0,0,0,0,0,1,NULL,-1,525, 119,"
+	'costumeIndex'"
+testFile1,Baseball,SPRITE,2,NULL,0,0,1,0,0,0,0,0,0,0,1,NULL,-1,524, 191,"
+	'sceneName'"
+testFile1,Baseball,SPRITE,3,NULL,0,0,1,0,0,0,0,0,0,0,1,NULL,-1,527, 265,"
+	'scale'"
+testFile1,Button1,SPRITE,0,NULL,0,0,0,0,12,0,0,0,0,0,12,NULL,-1,157, 182,"
+	'playSound:', 'pop',
+	'doPlaySoundAndWait', 'pop',
+	'stopAllSounds',
+	'playDrum', 1, 0.25,
+	'rest:elapsed:from:', 0.25,
+	'noteOn:duration:elapsed:from:', 60, 0.5,
+	'noteOn:duration:elapsed:from:', 60, 0.5,
+	'instrument:', 1,
+	'changeVolumeBy:', -10,
+	'setVolumeTo:', 100,
+	'changeTempoBy:', 20,
+	'setTempoTo:', 60"
+testFile1,Button1,SPRITE,1,NULL,0,0,0,0,1,0,0,0,0,0,1,NULL,-1,152, 485,"
+	'volume'"
+testFile1,Button1,SPRITE,2,NULL,0,0,0,0,1,0,0,0,0,0,1,NULL,-1,242, 485,"
+	'tempo'"
+testFile1,Pencil,SPRITE,0,NULL,0,11,0,0,0,0,0,0,0,0,12,NULL,-1,186, 154,"
+	'clearPenTrails',
+	'stampCostume',
+	'putPenDown',
+	'putPenUp',
+	'penColor:', 62, 61, 227,
+	'changePenHueBy:', 10,
+	'setPenHueTo:', 0,
+	'changePenShadeBy:', 10,
+	'setPenShadeTo:', 50,
+	'changePenSizeBy:', 1,
+	'penSize:', 1"
+testFile1,Button2,SPRITE,0,NULL,0,0,2,0,0,0,0,0,4,0,4,NULL,-1,404, 181,"
+	'setVar:to:', 'myVariable', 0,
+	'changeVar:by:', 'myVariable', 1,
+	'showVariable:', 'myVariable',
+	'hideVariable:', 'myVariable'"
+testFile1,Button2,SPRITE,1,NULL,0,1,2,0,0,0,0,0,6,0,6,NULL,-1,69, 198,"
+	'append:toList:', 'thing', 'myList',
+	'deleteLine:ofList:', 1, 'myList',
+	'insert:at:ofList:', 'thing', 1, 'myList',
+	'setLine:ofList:to:', 1, 'myList', 'thing',
+	'showList:', 'myList',
+	'hideList:', 'myList'"
+testFile1,Button2,SPRITE,2,NULL,0,0,0,0,0,0,0,0,1,0,1,NULL,-1,60, 350,"
+	'getLine:ofList:', 1, 'myList'"
+testFile1,Button2,SPRITE,3,NULL,0,0,0,0,0,0,0,0,1,0,1,NULL,-1,59, 380,"
+	'lineCountOfList:', 'myList'"
+testFile1,Button2,SPRITE,4,NULL,0,0,0,0,0,0,0,0,1,0,1,NULL,-1,62, 423,"
+	'list:contains:', 'myList', 'thing'"
+testFile1,Button5,SPRITE,0,NULL,0,0,0,0,0,2,0,0,0,0,2,NULL,-1,179, 278,"
+	'whenCloned',
+	'deleteClone'"
+testFile1,Button5,SPRITE,1,NULL,0,0,0,0,0,8,0,0,0,0,8,NULL,-1,179, 369,"
+	'createCloneOf', 'myself',
+	'wait:elapsed:from:', 1,
+	'doRepeat', 10, None,
+	'doIf', False, None,
+	'doIfElse', False, None, None,
+	'doWaitUntil', False,
+	'doUntil', False, None,
+	'stopScripts', 'all'"
+testFile1,Bat1,SPRITE,0,NULL,0,0,0,0,0,0,1,0,0,0,1,NULL,-1,66, 67,"
+	'touching:', 'mouse-pointer'"
+testFile1,Bat1,SPRITE,1,NULL,0,0,0,0,0,0,1,0,0,0,2,NULL,-1,73, 103,"
+	'touchingColor:', 67, 183, 25"
+testFile1,Bat1,SPRITE,2,NULL,0,0,0,0,0,0,1,0,0,0,3,NULL,-1,69, 139,"
+	'color:sees:', 2, 153, 97, 10, 194, 164"
+testFile1,Bat1,SPRITE,3,NULL,0,0,0,0,0,0,1,0,0,0,1,NULL,-1,81, 185,"
+	'distanceTo:', 'mouse-pointer'"
+testFile1,Bat1,SPRITE,4,NULL,0,0,0,0,0,0,1,0,0,0,1,NULL,-1,89, 219,"
+	'timestamp'"
+testFile1,Bat1,SPRITE,5,NULL,0,0,0,0,0,0,4,0,0,0,4,NULL,-1,402, 246,"
+	'doAsk', u'What's your name?',
+	'setVideoState', 'on',
+	'setVideoTransparency', 50,
+	'timerReset'"
+testFile1,Bat1,SPRITE,6,NULL,0,0,0,0,0,0,1,0,0,0,1,NULL,-1,81, 266,"
+	'timer'"
+testFile1,Bat1,SPRITE,7,NULL,0,0,0,0,0,0,1,0,0,0,1,NULL,-1,84, 291,"
+	'answer'"
+testFile1,Bat1,SPRITE,8,NULL,0,0,0,0,0,0,1,0,0,0,1,NULL,-1,55, 320,"
+	'keyPressed:', 'space'"
+testFile1,Bat1,SPRITE,9,NULL,0,0,0,0,0,0,1,0,0,0,1,NULL,-1,59, 366,"
+	'mousePressed'"
+testFile1,Bat1,SPRITE,10,NULL,0,0,0,0,0,0,1,0,0,0,1,NULL,-1,176, 403,"
+	'soundLevel'"
+testFile1,Bat1,SPRITE,11,NULL,0,0,0,0,0,0,1,0,0,0,1,NULL,-1,80, 406,"
+	'mouseX'"
+testFile1,Bat1,SPRITE,12,NULL,0,0,0,0,0,0,1,0,0,0,1,NULL,-1,74, 433,"
+	'mouseY'"
+testFile1,Bat1,SPRITE,13,NULL,0,0,0,0,0,0,1,0,0,0,1,NULL,-1,58, 484,"
+	'senseVideoMotion', 'motion', 'this sprite'"
+testFile1,Bat1,SPRITE,14,NULL,0,0,0,0,0,0,1,0,0,0,1,NULL,-1,66, 526,"
+	'getAttribute:of:', 'x position', 'Bat1'"
+testFile1,Bat1,SPRITE,15,NULL,0,0,0,0,0,0,1,0,0,0,1,NULL,-1,49, 571,"
+	'timeAndDate', 'minute'"
+testFile1,Bat1,SPRITE,16,NULL,0,0,0,0,0,0,1,0,0,0,1,NULL,-1,48, 622,"
+	'getUserName'"
+testFile1,Arrow1,SPRITE,0,whenGreenFlag,0,0,0,0,0,0,0,1,0,0,1,NULL,-1,187, 73,"
+	'whenGreenFlag'"
+testFile1,Arrow1,SPRITE,1,whenClicked,0,0,0,0,0,0,0,1,0,0,1,NULL,-1,171, 124,"
+	'whenClicked'"
+testFile1,Arrow1,SPRITE,2,whenIReceive,0,0,0,0,0,0,0,1,0,0,1,NULL,-1,186, 177,"
+	'whenIReceive', 'message1'"
+testFile1,Arrow1,SPRITE,3,whenSceneStarts,0,0,0,0,0,0,0,1,0,0,1,NULL,-1,176, 214,"
+	'whenSceneStarts', 'backdrop1'"
+testFile1,Arrow1,SPRITE,4,whenKeyPressed,0,0,0,0,0,0,0,1,0,0,1,NULL,-1,194, 253,"
+	'whenKeyPressed', 'space'"
+testFile1,Arrow1,SPRITE,5,whenSensorGreaterThan,0,0,0,0,0,0,0,2,0,0,3,NULL,-1,199, 323,"
+	'whenSensorGreaterThan', 'loudness', 10,
+	'broadcast:', 'message1',
+	'doBroadcastAndWait', 'message1'"
+testFile1,Apple,SPRITE,0,NULL,0,0,0,1,0,0,0,0,0,0,1,NULL,-1,125, 64,"
+	'+', '', ''"
+testFile1,Apple,SPRITE,1,NULL,0,0,0,1,0,0,0,0,0,0,1,NULL,-1,129, 94,"
+	'-', '', ''"
+testFile1,Apple,SPRITE,2,NULL,0,0,0,1,0,0,0,0,0,0,1,NULL,-1,132, 122.5,"
+	'*', '', ''"
+testFile1,Apple,SPRITE,3,NULL,0,0,0,1,0,0,0,0,0,0,1,NULL,-1,127, 161.5,"
+	'/', '', ''"
+testFile1,Apple,SPRITE,4,NULL,0,0,0,1,0,0,0,0,0,0,1,NULL,-1,122, 200,"
+	'randomFrom:to:', 1, 10"
+testFile1,Apple,SPRITE,5,NULL,0,0,0,1,0,0,0,0,0,0,1,NULL,-1,116, 240,"
+	'<', '', ''"
+testFile1,Apple,SPRITE,6,NULL,0,0,0,1,0,0,0,0,0,0,1,NULL,-1,116, 270,"
+	'=', '', ''"
+testFile1,Apple,SPRITE,7,NULL,0,0,0,0,0,0,0,0,0,0,1,NULL,-1,116, 306,"
+	'>', '', ''"
+testFile1,Apple,SPRITE,8,NULL,0,0,0,1,0,0,0,0,0,0,1,NULL,-1,115, 343,"
+	'&', False, False"
+testFile1,Apple,SPRITE,9,NULL,0,0,0,1,0,0,0,0,0,0,1,NULL,-1,112, 380,"
+	'|', False, False"
+testFile1,Apple,SPRITE,10,NULL,0,0,0,1,0,0,0,0,0,0,1,NULL,-1,123, 410,"
+	'not', False"
+testFile1,Apple,SPRITE,11,NULL,0,0,0,1,0,0,0,0,0,0,1,NULL,-1,126, 441,"
+	'concatenate:with:', 'hello ', 'world'"
+testFile1,Apple,SPRITE,12,NULL,0,0,0,1,0,0,0,0,0,0,1,NULL,-1,127, 469,"
+	'letter:of:', 1, 'world'"
+testFile1,Apple,SPRITE,13,NULL,0,0,0,1,0,0,0,0,0,0,1,NULL,-1,123, 501,"
+	'stringLength:', 'world'"
+testFile1,Apple,SPRITE,14,NULL,0,0,0,1,0,0,0,0,0,0,1,NULL,-1,128, 532,"
+	'%', '', ''"
+testFile1,Apple,SPRITE,15,NULL,0,0,0,1,0,0,0,0,0,0,1,NULL,-1,129, 565,"
+	'rounded', ''"
+testFile1,Apple,SPRITE,16,NULL,0,0,0,0,0,0,0,0,0,0,1,NULL,-1,140, 601,"
+	'computeFunction:of:', 'sqrt', 9"
+testFile1,Stage,STAGE,0,whenGreenFlag,0,0,0,0,0,0,0,1,0,0,1,NULL,-1,127, 21,"
+	'whenGreenFlag'"
+testFile1,Stage,STAGE,1,whenClicked,0,0,0,0,0,0,0,1,0,0,1,NULL,-1,286, 28,"
+	'whenClicked'"
+testFile1,Stage,STAGE,2,whenSceneStarts,0,0,0,0,0,0,0,1,0,0,1,NULL,-1,500, 35,"
+	'whenSceneStarts', 'backdrop1'"
+testFile1,Stage,STAGE,3,NULL,0,0,0,0,0,0,1,0,0,0,1,NULL,-1,188, 177,"
+	'keyPressed:', 'space'"
+testFile1,Stage,STAGE,4,NULL,0,0,0,0,0,0,1,0,0,0,1,NULL,-1,468, 177,"
+	'answer'"
+testFile1,Stage,STAGE,5,NULL,0,0,0,0,0,0,1,0,0,0,1,NULL,-1,264, 253,"
+	'setVideoState', 'on'"
+testFile1,Stage,STAGE,6,NULL,0,0,1,0,0,0,0,0,0,0,3,help,0,57.8, 313.2,"
+	'procDef', <'help' shape='stack'>,
+	'startScene', 'backdrop1'"
+testFile1,Stage,STAGE,7,NULL,0,0,0,0,0,0,0,0,0,0,2,helloThere,0,64.45, 421,"
+	'procDef', <'helloThere' shape='stack'>"

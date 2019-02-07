@@ -1,0 +1,12 @@
+//is it not bad
+//too long, empty stuff
+
+//what level
+//one simple if/else
+//
+
+//How to cluster?
+//what makes things similar?
+
+//resources: scratch + code smells
+//is remixed (get head of tree)

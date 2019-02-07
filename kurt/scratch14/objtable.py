@@ -21,7 +21,8 @@
 
 Otherwise, the main class in this file is ObjTable.
 """
-
+#import pkg_resources
+#pkg_resources.require("construct==2.5.0")
 from construct import *
 from construct.text import Literal
 from functools import partial
