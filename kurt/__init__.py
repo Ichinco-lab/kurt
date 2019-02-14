@@ -87,7 +87,7 @@ try:
 except ImportError:
     from StringIO import StringIO
 
-#import PIL.Image
+import PIL.Image
 import wave
 
 

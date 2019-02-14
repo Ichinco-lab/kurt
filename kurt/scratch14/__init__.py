@@ -21,7 +21,7 @@ import re
 import wave
 from copy import copy
 
-#import PIL
+import PIL
 from construct.lib.container import Container, recursion_lock
 
 import kurt
@@ -705,3 +705,4 @@ block_workaround('stop', lambda block: {
     'this script': kurt.Block('stop script'),
     'all': kurt.Block('stop all'),
 }.get(block.args[0], None))
+
