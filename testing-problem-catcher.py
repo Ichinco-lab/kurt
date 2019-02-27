@@ -4,7 +4,7 @@ import sys
 import kurt
 #print sys.path
 from ProblemCatcher import ProblemCatcher
-scratchFile = "tests/testFile1.sb2"
+scratchFile = "tests/SkippingRope.sb2"
 outFile = "testFile1.csv"
 
 PC = ProblemCatcher()
