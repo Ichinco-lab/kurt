@@ -36,6 +36,8 @@ class ProblemCatcher:
                 for block in script:
                     if "doIfElse" in block.__repr__():
                         print block.__repr__()
+                        print block.args
+                        print block.args[0]
                         for arg in block.args:
                             print block.args
                             # block.args = block.args.split(',')
