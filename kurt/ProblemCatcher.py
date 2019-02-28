@@ -77,13 +77,13 @@ class ProblemCatcher:
                 falseNullCounts[0] += subCounts[0]
                 falseNullCounts[1] += subCounts[1]
             else:
-                subCounts[1] += 1
+                falseNullCounts[1] += 1
             if block.args[2] != "None":#empty else
                 subCounts = get_empty_counts(block.args[2])
                 falseNullCounts[0] += subCounts[0]
                 falseNullCounts[1] += subCounts[1]
             else:
-                subCounts[1] += 1   
+                falseNullCounts[1] += 1   
                 
                 
                 
@@ -109,7 +109,7 @@ class ProblemCatcher:
                 falseNullCounts[0] += subCounts[0]
                 falseNullCounts[1] += subCounts[1]
             else:
-                subCounts[1] += 1
+                falseNullCounts[1] += 1
             return falseNullCounts
     		
     		
