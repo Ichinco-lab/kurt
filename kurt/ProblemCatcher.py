@@ -32,6 +32,21 @@ class ProblemCatcher:
 
 
     class emptyConditionHandler:
+        """
+        @param scratchfile: the name of the scratch file to be tested with
+            get_empty_counts()
+        @return: tbd (nothing for now)
+        """
+        @staticmethod 
+        def test_emptyConditionHandler(scratchfile):
+            project = kurt.Project.load(scratchfile)
+            counter = 0
+            for sprite in project.sprites:
+                for script in sprite.scripts: 
+                    print ProblemCatcher.emptyConditionHandler.get_empty_counts(script)
+                    counter += 1
+        
+            return 0
     	
         """
         @param blocks: 	an array of kurt blocks
@@ -43,13 +58,36 @@ class ProblemCatcher:
         """
         @staticmethod
         def get_empty_counts(script):
-            falseNullCounts = {0,0}# falseNullCounts = {falseCount, nullCount}
-            subCounts = {0,0}
+            falseNullCounts = [0,0]# falseNullCounts = {falseCount, nullCount}
+            subCounts = [0,0]
+            ifChecker = ["<('if", 'then\\n', "\\n'", "shape='stack')>"]
+            ifElseChecker = ["<('if", 'then\\n', '\\nelse\\n', "\\n'", "shape='stack')>"]
+            found = True
             for block in script:
-                if "doIfElse" in block.repr():
-                    subCounts = doIfElseEmptyCounter(block)
-                elif "doIf" in block.repr():
-                    subCounts = doIfEmptyCounter(block)
+                temp = block.type.__repr__().split()
+                #print temp
+                for x in range(len(ifChecker)): 
+                    if len(temp) < x and len(temp) == len(ifElseChecker):
+                        if ifChecker[x] != temp[x]:
+                            found = False
+                        else:
+                            found = False
+                        
+                if found:#case if
+                    subCounts = ProblemCatcher.emptyConditionHandler.doIfElseEmptyCounter(block)
+                else:
+                    found = True
+                for x in range(len(ifElseChecker)): 
+                    if len(temp) < x and len(temp) == len(ifElseChecker):
+                        if ifElseChecker[x] != temp[x]:
+                            found = False
+                    else:
+                        found = False
+                        
+                if found:#case if else
+                    subCounts = ProblemCatcher.emptyConditionHandler.doIfEmptyCounter(block)
+                else:
+                    found = True
                 #continue for all necessary cases
                 #only doIfElse and doIf here for proof of concept
                 falseNullCounts[0] += subCounts[0]
@@ -68,26 +106,27 @@ class ProblemCatcher:
     	"""
         @staticmethod
         def	doIfElseEmptyCounter(block):
-            falseNullCounts = {0,0}
-            subCounts = {0,0}
-            if block.args[0] != "False":#empty condition
-            	subCounts[0] += 1
-            if block.args[1] != "None":#empty if
-                subCounts = get_empty_counts(block.args[1])
+            falseNullCounts = [0,0]
+            subCounts = [0,0]
+            if block.args[0] == False:#empty condition
+            	falseNullCounts[0] += 1
+            if block.args[1] != None:#case empty if
+                subCounts = ProblemCatcher.emptyConditionHandler.get_empty_counts(block.args[1])
                 falseNullCounts[0] += subCounts[0]
                 falseNullCounts[1] += subCounts[1]
             else:
                 falseNullCounts[1] += 1
-            if block.args[2] != "None":#empty else
-                subCounts = get_empty_counts(block.args[2])
-                falseNullCounts[0] += subCounts[0]
-                falseNullCounts[1] += subCounts[1]
-            else:
-                falseNullCounts[1] += 1   
+            if len(block.args) > 2:
+                if block.args[2] != None:#case empty else
+                    subCounts = ProblemCatcher.emptyConditionHandler.get_empty_counts(block.args[2])
+                    falseNullCounts[0] += subCounts[0]
+                    falseNullCounts[1] += subCounts[1]
+                else:
+                    falseNullCounts[1] += 1   
                 
                 
                 
-            return falseNullCounts    #stub function
+            return falseNullCounts    
     		
     	"""
     		@param block: 	a kurt doIf block
@@ -100,12 +139,12 @@ class ProblemCatcher:
     	"""
         @staticmethod
         def	doIfEmptyCounter(block):
-            falseNullCounts = {0,0}
-            subCounts = {0,0}
-            if block.args[0] != "False":#empty condition
-            	subCounts[0] += 1
-            if block.args[1] != "None":#empty if
-                subCounts = get_empty_counts(block.args[1])
+            falseNullCounts = [0,0]
+            subCounts = [0,0]
+            if block.args[0] == False:#empty condition
+            	falseNullCounts[0] += 1
+            if block.args[1] != None:#case empty if
+                subCounts = ProblemCatcher.emptyConditionHandler.get_empty_counts(block.args[1])
                 falseNullCounts[0] += subCounts[0]
                 falseNullCounts[1] += subCounts[1]
             else:
