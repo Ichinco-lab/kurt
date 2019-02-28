@@ -28,6 +28,93 @@ class ProblemCatcher:
     #             print('Bad')
     #     return project.name
 
+
+
+
+    class emptyConditionHandler:
+    	
+        """
+        @param blocks: 	an array of kurt blocks
+        @returns: 		an array of length 2
+    					the first value in the array holds the number of times
+    						no condition is put in a control block
+    					the second value in the array holds the number of empty
+    						blocks within control blocks
+        """
+        @staticmethod
+        def get_empty_counts(script):
+            falseNullCounts = {0,0}# falseNullCounts = {falseCount, nullCount}
+            subCounts = {0,0}
+            for block in script:
+                if "doIfElse" in block.repr():
+                    subCounts = doIfElseEmptyCounter(block)
+                elif "doIf" in block.repr():
+                    subCounts = doIfEmptyCounter(block)
+                #continue for all necessary cases
+                #only doIfElse and doIf here for proof of concept
+                falseNullCounts[0] += subCounts[0]
+                falseNullCounts[1] += subCounts[1]
+            return falseNullCounts    
+    		
+    		
+    	"""
+    		@param block: 	a kurt doIfElse block
+        	@returns: 		an array of length 2
+    					the first value in the array holds the number of times
+    						no condition is put in the doIfElse block
+    					the second value in the array holds the number of empty
+    						blocks within the doIfElse block
+    	
+    	"""
+        @staticmethod
+        def	doIfElseEmptyCounter(block):
+            falseNullCounts = {0,0}
+            subCounts = {0,0}
+            if block.args[0] != "False":#empty condition
+            	subCounts[0] += 1
+            if block.args[1] != "None":#empty if
+                subCounts = get_empty_counts(block.args[1])
+                falseNullCounts[0] += subCounts[0]
+                falseNullCounts[1] += subCounts[1]
+            else:
+                subCounts[1] += 1
+            if block.args[2] != "None":#empty else
+                subCounts = get_empty_counts(block.args[2])
+                falseNullCounts[0] += subCounts[0]
+                falseNullCounts[1] += subCounts[1]
+            else:
+                subCounts[1] += 1   
+                
+                
+                
+            return falseNullCounts    #stub function
+    		
+    	"""
+    		@param block: 	a kurt doIf block
+        	@returns: 		an array of length 2
+    					the first value in the array holds the number of times
+    						no condition is put in the doIfElse block
+    					the second value in the array holds the number of empty
+    						blocks within the doIf block
+    	
+    	"""
+        @staticmethod
+        def	doIfEmptyCounter(block):
+            falseNullCounts = {0,0}
+            subCounts = {0,0}
+            if block.args[0] != "False":#empty condition
+            	subCounts[0] += 1
+            if block.args[1] != "None":#empty if
+                subCounts = get_empty_counts(block.args[1])
+                falseNullCounts[0] += subCounts[0]
+                falseNullCounts[1] += subCounts[1]
+            else:
+                subCounts[1] += 1
+            return falseNullCounts
+    		
+    		
+
+
     def multiple_if(self,fileName):
         project = kurt.Project.load(fileName)
         for sprite in project.sprites:
