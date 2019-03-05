@@ -60,34 +60,47 @@ class ProblemCatcher:
         def get_empty_counts(script):
             falseNullCounts = [0,0]# falseNullCounts = {falseCount, nullCount}
             subCounts = [0,0]
+            #****************Control Block Split Array************************
             ifChecker = ["<('if", 'then\\n', "\\n'", "shape='stack')>"]
             ifElseChecker = ["<('if", 'then\\n', '\\nelse\\n', "\\n'", "shape='stack')>"]
             found = True
             for block in script:
                 temp = block.type.__repr__().split()
-                #print temp
+
+
+
+                #**************Find If***************
                 for x in range(len(ifChecker)): 
-                    if len(temp) < x and len(temp) == len(ifElseChecker):
+                    if len(temp) == len(ifChecker):
                         if ifChecker[x] != temp[x]:
                             found = False
-                        else:
-                            found = False
-                        
-                if found:#case if
-                    subCounts = ProblemCatcher.emptyConditionHandler.doIfElseEmptyCounter(block)
+                    else:
+                        found = False
+                if found:#case 'if' found
+                    #print "Found If"
+                    subCounts = ProblemCatcher.emptyConditionHandler.doIfEmptyCounter(block)
                 else:
                     found = True
+                    
+                    
+                    
+                    
+                #**************Find Else***************  
                 for x in range(len(ifElseChecker)): 
-                    if len(temp) < x and len(temp) == len(ifElseChecker):
+                    if len(temp) == len(ifElseChecker):
                         if ifElseChecker[x] != temp[x]:
                             found = False
                     else:
                         found = False
                         
-                if found:#case if else
-                    subCounts = ProblemCatcher.emptyConditionHandler.doIfEmptyCounter(block)
+                if found:#case 'if else' found
+                    #print "Found If Else"
+                    subCounts = ProblemCatcher.emptyConditionHandler.doIfElseEmptyCounter(block)
                 else:
                     found = True
+                    
+                    
+                    
                 #continue for all necessary cases
                 #only doIfElse and doIf here for proof of concept
                 falseNullCounts[0] += subCounts[0]
