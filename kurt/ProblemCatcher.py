@@ -123,22 +123,20 @@ class ProblemCatcher:
             subCounts = [0,0]
             if block.args[0] == False:#empty condition
             	falseNullCounts[0] += 1
+            else:
+                falseNullCounts[0] += ProblemCatcher.emptyConditionHandler.conditionalEmptyCounter(block.args[0])
             if block.args[1] != None:#case empty if
                 subCounts = ProblemCatcher.emptyConditionHandler.get_empty_counts(block.args[1])
                 falseNullCounts[0] += subCounts[0]
                 falseNullCounts[1] += subCounts[1]
             else:
                 falseNullCounts[1] += 1
-            if len(block.args) > 2:
-                if block.args[2] != None:#case empty else
-                    subCounts = ProblemCatcher.emptyConditionHandler.get_empty_counts(block.args[2])
-                    falseNullCounts[0] += subCounts[0]
-                    falseNullCounts[1] += subCounts[1]
-                else:
-                    falseNullCounts[1] += 1   
-                
-                
-                
+            if block.args[2] != None:#case empty else
+                subCounts = ProblemCatcher.emptyConditionHandler.get_empty_counts(block.args[2])
+                falseNullCounts[0] += subCounts[0]
+                falseNullCounts[1] += subCounts[1]
+            else:
+                falseNullCounts[1] += 1      
             return falseNullCounts    
     		
     	"""
@@ -155,7 +153,9 @@ class ProblemCatcher:
             falseNullCounts = [0,0]
             subCounts = [0,0]
             if block.args[0] == False:#empty condition
-            	falseNullCounts[0] += 1
+                falseNullCounts[0] += 1
+            else:
+                falseNullCounts[0] += ProblemCatcher.emptyConditionHandler.conditionalEmptyCounter(block.args[0])
             if block.args[1] != None:#case empty if
                 subCounts = ProblemCatcher.emptyConditionHandler.get_empty_counts(block.args[1])
                 falseNullCounts[0] += subCounts[0]
@@ -164,7 +164,22 @@ class ProblemCatcher:
                 falseNullCounts[1] += 1
             return falseNullCounts
     		
-    		
+    	"""
+    	    @param block: a Kurt conditional block
+    	    @return the number of empty conditional blocks
+    	    within the conditional block @param block
+    	
+    	"""
+        @staticmethod
+        def conditionalEmptyCounter(block):
+            emptyCounter = 0
+            if hasattr(block,'args'):
+                for arg in block.args:
+                    if arg == False or arg == '':
+                        emptyCounter += 1
+                    else:
+                        emptyCounter += ProblemCatcher.emptyConditionHandler.conditionalEmptyCounter(arg)
+            return emptyCounter
 
 
     def multiple_if(self,fileName):
