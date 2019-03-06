@@ -63,16 +63,21 @@ class ProblemCatcher:
             #****************Control Block Split Array************************
             ifChecker = ["<('if", 'then\\n', "\\n'", "shape='stack')>"]
             ifElseChecker = ["<('if", 'then\\n', '\\nelse\\n', "\\n'", "shape='stack')>"]
+            foreverChecker = ["<('forever\\n", "\\n'", "shape='cap')>"]
+            foreverIfChecker = ["<('forever", 'if', '\\n', "\\n'", "shape='cap')>"]
+            repeatUntilChecker = ["<('repeat", 'until', '\\n', "\\n'", "shape='stack')>"]
+            repeatNTimesChecker = ["<('repeat", '10\\n', "\\n'", "shape='stack')>"]
+
             found = True
             for block in script:
-                temp = block.type.__repr__().split()
-
+                blockType = block.type.__repr__().split()
+                #print blockType
 
 
                 #**************Find If***************
                 for x in range(len(ifChecker)): 
-                    if len(temp) == len(ifChecker):
-                        if ifChecker[x] != temp[x]:
+                    if len(blockType) == len(ifChecker):
+                        if ifChecker[x] != blockType[x]:
                             found = False
                     else:
                         found = False
@@ -81,28 +86,85 @@ class ProblemCatcher:
                     subCounts = ProblemCatcher.emptyConditionHandler.doIfEmptyCounter(block)
                 else:
                     found = True
-                    
-                    
-                    
-                    
+                         
+                
+                
                 #**************Find Else***************  
                 for x in range(len(ifElseChecker)): 
-                    if len(temp) == len(ifElseChecker):
-                        if ifElseChecker[x] != temp[x]:
+                    if len(blockType) == len(ifElseChecker):
+                        if ifElseChecker[x] != blockType[x]:
                             found = False
                     else:
                         found = False
                         
-                if found:#case 'if else' found
+                if found:#case 'forever' found
                     #print "Found If Else"
                     subCounts = ProblemCatcher.emptyConditionHandler.doIfElseEmptyCounter(block)
                 else:
                     found = True
+                
                     
                     
+                #*************Find Forever*************  
+                for x in range(len(foreverChecker)): 
+                    if len(blockType) == len(foreverChecker):
+                        if foreverChecker[x] != blockType[x]:
+                            found = False
+                    else:
+                        found = False
+                        
+                if found:#case 'forever' found
+                    #print "Found forever"
+                    subCounts = ProblemCatcher.emptyConditionHandler.doForeverEmptyCounter(block)
+                else:
+                    found = True
                     
-                #continue for all necessary cases
-                #only doIfElse and doIf here for proof of concept
+                    
+                
+                #***********Find Forever If***********  
+                for x in range(len(foreverIfChecker)): 
+                    if len(blockType) == len(foreverIfChecker):
+                        if foreverIfChecker[x] != blockType[x]:
+                            found = False
+                    else:
+                        found = False
+                        
+                if found:#case 'forever if' found
+                    #print "Found forever if"
+                    subCounts = ProblemCatcher.emptyConditionHandler.doForeverIfEmptyCounter(block)
+                else:
+                    found = True
+                    
+                #**********Find Repeat Until***********  
+                for x in range(len(repeatUntilChecker)): 
+                    if len(blockType) == len(repeatUntilChecker):
+                        if repeatUntilChecker[x] != blockType[x]:
+                            found = False
+                    else:
+                        found = False
+                        
+                if found:#case 'repeat until' found
+                    #print "Found repeat until"
+                    subCounts = ProblemCatcher.emptyConditionHandler.doRepeatUntilEmptyCounter(block)
+                else:
+                    found = True
+                
+                #**********Find Repeat Until***********  
+                for x in range(len(repeatNTimesChecker)): 
+                    if len(blockType) == len(repeatNTimesChecker):
+                        if repeatNTimesChecker[x] != blockType[x]:
+                            found = False
+                    else:
+                        found = False
+                        
+                if found:#case 'repeat until' found
+                    #print "Found repeat until"
+                    subCounts = ProblemCatcher.emptyConditionHandler.doRepeatNTimesEmptyCounter(block)
+                else:
+                    found = True
+                
+                
+                #continue for all cases 
                 falseNullCounts[0] += subCounts[0]
                 falseNullCounts[1] += subCounts[1]
             return falseNullCounts    
@@ -143,7 +205,7 @@ class ProblemCatcher:
     		@param block: 	a kurt doIf block
         	@returns: 		an array of length 2
     					the first value in the array holds the number of times
-    						no condition is put in the doIfElse block
+    						no condition is put in the doIf block
     					the second value in the array holds the number of empty
     						blocks within the doIf block
     	
@@ -163,6 +225,105 @@ class ProblemCatcher:
             else:
                 falseNullCounts[1] += 1
             return falseNullCounts
+            
+        """
+    		@param block: 	a kurt forever block
+        	@returns: 		an array of length 2
+    					the first value in the array holds the number of times
+    						no condition is put in the forever block
+    					the second value in the array holds the number of empty
+    						blocks within the forever block
+    	"""
+        @staticmethod
+        def doForeverEmptyCounter(block): 
+            falseNullCounts = [0,0]
+            subCounts = [0,0]
+            if block.args[0] != None:#case empty forever
+                subCounts = ProblemCatcher.emptyConditionHandler.get_empty_counts(block.args[0])
+                falseNullCounts[0] += subCounts[0]
+                falseNullCounts[1] += subCounts[1]
+            else:
+                falseNullCounts[1] += 1
+            return falseNullCounts
+            
+        """
+    		@param block: 	a kurt foreverIf block
+        	@returns: 		an array of length 2
+    					the first value in the array holds the number of times
+    						no condition is put in the foreverIf block
+    					the second value in the array holds the number of empty
+    						blocks within the foreverIf block
+    	"""
+        @staticmethod
+        def doForeverIfEmptyCounter(block):     
+            falseNullCounts = [0,0]
+            subCounts = [0,0]
+            if block.args[0] == False:#empty condition
+                falseNullCounts[0] += 1
+            else:
+                falseNullCounts[0] += ProblemCatcher.emptyConditionHandler.conditionalEmptyCounter(block.args[0])
+            if block.args[1] != None:#case empty forever
+                subCounts = ProblemCatcher.emptyConditionHandler.get_empty_counts(block.args[1])
+                falseNullCounts[0] += subCounts[0]
+                falseNullCounts[1] += subCounts[1]
+            else:
+                falseNullCounts[1] += 1
+            return falseNullCounts
+    		
+    		
+    		
+    	"""
+    		@param block: 	a kurt repeat until block
+        	@returns: 		an array of length 2
+    					the first value in the array holds the number of times
+    						no condition is put in the repeat until block
+    					the second value in the array holds the number of empty
+    						blocks within the repeat until block
+    	"""
+        @staticmethod	
+        def doRepeatUntilEmptyCounter(block):
+    	    falseNullCounts = [0,0]
+            subCounts = [0,0]
+            if block.args[0] == False:#empty condition
+                falseNullCounts[0] += 1
+            else:
+                falseNullCounts[0] += ProblemCatcher.emptyConditionHandler.conditionalEmptyCounter(block.args[0])
+            if block.args[1] != None:#case empty repeat
+                subCounts = ProblemCatcher.emptyConditionHandler.get_empty_counts(block.args[1])
+                falseNullCounts[0] += subCounts[0]
+                falseNullCounts[1] += subCounts[1]
+            else:
+                falseNullCounts[1] += 1
+            return falseNullCounts
+    		
+    		
+    		
+    		
+    		
+    		
+    	"""
+    		@param block: 	a kurt repeat n times block
+        	@returns: 		an array of length 2
+    					the first value in the array holds the number of times
+    						no condition is put in the repeat n times block
+    					the second value in the array holds the number of empty
+    						blocks within the repeat n times block
+    	"""
+        @staticmethod	
+        def doRepeatNTimesEmptyCounter(block):
+    	    falseNullCounts = [0,0]
+            subCounts = [0,0]
+            #if block.args[0] == '':#empty condition
+            #    falseNullCounts[0] += 1
+            if block.args[1] != None:#case empty repeat
+                subCounts = ProblemCatcher.emptyConditionHandler.get_empty_counts(block.args[1])
+                falseNullCounts[0] += subCounts[0]
+                falseNullCounts[1] += subCounts[1]
+            else:
+                falseNullCounts[1] += 1
+            return falseNullCounts
+    		
+    		
     		
     	"""
     	    @param block: a Kurt conditional block
