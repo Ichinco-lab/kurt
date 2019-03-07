@@ -71,7 +71,6 @@ class ProblemCatcher:
             broadcastChecker = ['<(u"broadcast', '\'\'"', "shape='stack')>"]
             broadcastAndWaitChecker = ['<(u"broadcast', "''", 'and', 'wait"', "shape='stack')>"]#to do
             whenIRecieveChecker = ['<(u"when', 'I', 'receive', '\'\'"', "shape='hat')>"]
-            waitNseconds = ["<('wait", '1', "secs'", "shape='stack')>"]
 
 
             found = True
