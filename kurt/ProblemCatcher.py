@@ -9,38 +9,65 @@ class ProblemCatcher:
     def __init__(self):
         return
 
-    #
-    # def hide_show_problem(self,fileName):
-    #     project = kurt.Project.load(fileName)
-    #     for sprite in project.sprites:
-    #         hide_count = 0
-    #         show_count = 0
-    #         for script in sprite.scripts:
-    #             for block in script:
-    #                 print block.stringify()
-    #                 if (block.stringify() == "hide"):
-    #                     hide_count+=1
-    #                 if (block.stringify() == "show"):
-    #                     show_count+=1
-    #         if ( hide_count >= 1 and show_count >= 1 or (hide_count == 0 and show_count == 0) ):
-    #             print('Good')
-    #         else:
-    #             print('Bad')
-    #     return project.name
-
-
-
+    """
+        @param fileName: a scratch file name in string form
+        @return the number of hide show problems within the program
+            this should be a number from 0 to the number of sprites in
+            the project. This accounts for deadcode which can
+            never be called.
+    """
+    def hide_show_problem(self,fileName):
+        project = kurt.Project.load(fileName)
+        hide_show_problem_count = 0
+        print "Finding Hide Show Problems"
+        for sprite in project.sprites:
+            hide_show_problem_count += ProblemCatcher.sprite_has_hide_show_problem(sprite)
+                
+        return hide_show_problem_count
+            
+            
+            
+    """
+        @param sprite: a kurt sprite object
+        @return: returns 1 if the sprite has a hide show problem
+            and 0 otherwise. This accounts for deadcode which can
+            never be called.
+    """
+    @staticmethod
+    def sprite_has_hide_show_problem(sprite):
+        hide_count = 0
+        show_count = 0
+        hide_show_problem_count = 0
+        for script in sprite.scripts:
+            #only care about script if script is not dead code
+            deadCodeChecker = script[0].type.__repr__().split()[-1]
+            if ("shape='hat')>" == deadCodeChecker): 
+                if "hide" in script.__repr__():
+                    hide_count += 1
+                if "show" in script.__repr__():
+                    show_count += 1      
+          
+        if ( hide_count >= 1 and show_count <= 0):
+            print "Hide found without a Show: {0}".format(sprite.name)
+            hide_show_problem_count += 1
+        elif (hide_count <= 0 and show_count >= 1):
+            print "Show found without a Hide: {0}".format(sprite.name)
+            hide_show_problem_count += 1
+        return  hide_show_problem_count
+        
+        
 
     class emptyConditionHandler:
         """
         @param scratchfile: the name of the scratch file to be tested with
             get_empty_counts()
-        @return: tbd (nothing for now)
+        @return: the number 0 upon success
         """
         @staticmethod 
         def test_emptyConditionHandler(scratchfile):
             project = kurt.Project.load(scratchfile)
             counter = 0
+            print "Testing Empty Condition Handler"
             for sprite in project.sprites:
                 for script in sprite.scripts: 
                     print ProblemCatcher.emptyConditionHandler.get_empty_counts(script)
