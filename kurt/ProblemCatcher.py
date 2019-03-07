@@ -67,6 +67,12 @@ class ProblemCatcher:
             foreverIfChecker = ["<('forever", 'if', '\\n', "\\n'", "shape='cap')>"]
             repeatUntilChecker = ["<('repeat", 'until', '\\n', "\\n'", "shape='stack')>"]
             repeatNTimesChecker = ["<('repeat", '10\\n', "\\n'", "shape='stack')>"]
+            waitUntilChecker = ["<('wait", 'until', "'", "shape='stack')>"]
+            broadcastChecker = ['<(u"broadcast', '\'\'"', "shape='stack')>"]
+            broadcastAndWaitChecker = ['<(u"broadcast', "''", 'and', 'wait"', "shape='stack')>"]#to do
+            whenIRecieveChecker = ['<(u"when', 'I', 'receive', '\'\'"', "shape='hat')>"]
+            waitNseconds = ["<('wait", '1', "secs'", "shape='stack')>"]
+
 
             found = True
             for block in script:
@@ -162,6 +168,69 @@ class ProblemCatcher:
                     subCounts = ProblemCatcher.emptyConditionHandler.doRepeatNTimesEmptyCounter(block)
                 else:
                     found = True
+                
+                
+                
+                #**********Find Wait Until***********  
+                for x in range(len(waitUntilChecker)): 
+                    if len(blockType) == len(waitUntilChecker):
+                        if waitUntilChecker[x] != blockType[x]:
+                            found = False
+                    else:
+                        found = False
+                        
+                if found:#case 'wait until' found
+                    #print "Found wait until"
+                    subCounts = ProblemCatcher.emptyConditionHandler.doWaitUntilEmptyCounter(block)
+                else:
+                    found = True
+                
+                
+                #**********Find Broadcast***********  
+                for x in range(len(broadcastChecker)): 
+                    if len(blockType) == len(broadcastChecker):
+                        if broadcastChecker[x] != blockType[x]:
+                            found = False
+                    else:
+                        found = False
+                        
+                if found:#case 'broadcast' found
+                    #print "Found broadcast"
+                    subCounts = ProblemCatcher.emptyConditionHandler.doBroadcastEmptyCounter(block)
+                else:
+                    found = True
+                
+                
+                #*******Find Broadcast And Wait******* 
+                for x in range(len(broadcastAndWaitChecker)): 
+                    if len(blockType) == len(broadcastAndWaitChecker):
+                        if broadcastAndWaitChecker[x] != blockType[x]:
+                            found = False
+                    else:
+                        found = False
+                        
+                if found:#case 'broadcast and wait' found
+                    #print "Found broadcast and wait"
+                    subCounts = ProblemCatcher.emptyConditionHandler.doBroadcastEmptyCounter(block)
+                else:
+                    found = True
+                
+                
+                #*********Find When I Recieve********* 
+                for x in range(len(whenIRecieveChecker)): 
+                    if len(blockType) == len(whenIRecieveChecker):
+                        if whenIRecieveChecker[x] != blockType[x]:
+                            found = False
+                    else:
+                        found = False
+                        
+                if found:#case 'when I recieve' found
+                    #print "Found when I recieve"
+                    subCounts = ProblemCatcher.emptyConditionHandler.doWhenIRecieveEmptyCounter(block)
+                else:
+                    found = True
+                
+                
                 
                 
                 #continue for all cases 
@@ -322,9 +391,70 @@ class ProblemCatcher:
             else:
                 falseNullCounts[1] += 1
             return falseNullCounts
-    		
-    		
-    		
+    		    
+    	
+    	
+    	
+    	
+    	"""
+    		@param block: 	a kurt wait until block
+        	@returns: 		an array of length 2
+    					the first value in the array holds the number of times
+    						no condition is put in the wait until block
+    					the second value in the array holds the number of empty
+    						blocks within the wait until block
+    	"""
+        @staticmethod	
+        def doWaitUntilEmptyCounter(block):
+            falseNullCounts = [0,0]
+            if block.args[0] == False:#empty condition
+                falseNullCounts[0] += 1
+            else:
+                falseNullCounts[0] += ProblemCatcher.emptyConditionHandler.conditionalEmptyCounter(block.args[0])
+            return falseNullCounts
+        
+        
+        
+        """
+    		@param block: 	a kurt broadcast block
+        	@returns: 		an array of length 2
+    					the first value in the array holds the number of times
+    						no condition is put in the broadcast block
+    					the second value in the array holds the number of empty
+    						blocks within the broadcast block
+    	"""
+    	@staticmethod
+    	def doBroadcastEmptyCounter(block):
+            falseNullCounts = [0,0]
+            if block.args[0] == '':#empty condition
+                falseNullCounts[0] += 1
+            else:
+                falseNullCounts[0] += ProblemCatcher.emptyConditionHandler.conditionalEmptyCounter(block.args[0])
+            return falseNullCounts
+        
+        
+        
+        
+        
+        """
+    		@param block: 	a kurt when I recieve block
+        	@returns: 		an array of length 2
+    					the first value in the array holds the number of times
+    						no condition is put in the when I recieve block
+    					the second value in the array holds the number of empty
+    						blocks within the when I recieve block
+    	"""
+        @staticmethod
+        def doWhenIRecieveEmptyCounter(block):
+            falseNullCounts = [0,0]
+            if block.args[0] == '':#empty condition
+                falseNullCounts[0] += 1
+            else:
+                falseNullCounts[0] += ProblemCatcher.emptyConditionHandler.conditionalEmptyCounter(block.args[0])
+            return falseNullCounts
+        
+        
+        	
     	"""
     	    @param block: a Kurt conditional block
     	    @return the number of empty conditional blocks
