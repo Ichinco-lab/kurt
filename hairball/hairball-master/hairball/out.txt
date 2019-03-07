@@ -1,0 +1,19 @@
+../test/tmp.sb
+{u'Sprite1': [['when I receive %s',
+               'set x to %s',
+               'change x by %s',
+               'y position']]}
+{'Abstraction': 1, 'Parallelization': 0, 'Logic': 0, 'Synchronization': 2, 'FlowControl': 3, 'UserInteractivity': 1, 'DataRepresentation': 1}
+Total mastery points: 8/21
+Average mastery points: 1.14/3
+Overall programming competence: Developing
+../test/testsj1.sb2
+{'Abstraction': 1, 'Parallelization': 0, 'Logic': 1, 'Synchronization': 0, 'FlowControl': 1, 'UserInteractivity': 0, 'DataRepresentation': 1}
+Total mastery points: 4/21
+Average mastery points: 0.57/3
+Overall programming competence: Basic
+../test/testsj2_empty_if.sb2
+{'Abstraction': 0, 'Parallelization': 0, 'Logic': 1, 'Synchronization': 0, 'FlowControl': 1, 'UserInteractivity': 1, 'DataRepresentation': 0}
+Total mastery points: 3/21
+Average mastery points: 0.43/3
+Overall programming competence: Basic
