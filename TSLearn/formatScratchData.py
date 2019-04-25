@@ -1,16 +1,5 @@
-
-"""
-Requires:
-"""
 import csv
-
-
-
-
-
-
-
-
+import numpy as np
 
 """
 @param: project_dictionary
@@ -34,65 +23,93 @@ def process(project_dictionary):
 	match on each line
 
 """
-def formatScratchData(projects_,project_blocks_):
+"""def formatScratchData(projects_, project_blocks_, min_projects):
 	projects = open(projects_, "rb")#initialize the csv readers
 	project_blocks = open(project_blocks_, "rb")
-	readProject = csv.DictReader(projects) 
+	readProjects = csv.DictReader(projects) 
 	readBlocks = csv.DictReader(project_blocks) 
-	projectArray = []#used to store projects_['user_id'] and projects_['project_id']
+	projectTable = []#used to store projects_['user_id'] and projects_['project_id']
 	ids = {}	#Stores location in formattedData to insert processed data by user id
 	formattedData = []#stores processed data by user id
-	for line in readProject:
-		projectArray.append({'user_id': line['user_id'], 'project_id': line['project_id']})
-		if str(line['user_id']) not in ids:
-			ids[str(line['user_id'])] = len(ids)
+	counter = np.uint64(0)
+	for project in readProjects:
+		projectTable.append({'project_id':project['project_id'], 'user_id':project['user_id']})
+		if project['user_id'] not in ids:
+			ids[project['user_id']] = {'project_count':1, 'index':len(ids)}
 			formattedData.append([])
-	#print len(projectArray)
-	#for every project get its processed form and insert into the correct 
-	#spot in formattedData based on the user id. Since newer projects sets
-	#appear earlier in the dataset we have to insert at the beginning of a
-	#time series rather than append to the end of one.
-	#This is also the area we are most likely to run of heap space
-	counter = 0
-	for line in readBlocks:
-		"""line = projectArray[counter] #The Easier to read version of the
-		formatLine = ids[str(line['user_id'])] #uncommented loop code
-		formattedData[formatLine].insert(0, process(line))
-		Keeping the harder to read version because efficiency is priority here"""
+		else:
+			ids[project['user_id']]['project_count'] += np.uint64(1)
+			
+	counter = np.uint64(0)
+	for project in readBlocks:
+		while int(projectTable[counter]['project_id']) < int(project['project_id']):
+			ids[projectTable[counter]['user_id']]['project_count'] -= 1
+			counter += np.uint64(1)
+		if int(projectTable[counter]['project_id']) == int(project['project_id']):
+			
+			print projectTable[counter]['project_id'] 
+			print project['project_id']
+			print
+			if ids[projectTable[counter]['user_id']]['project_count'] >= min_projects:
+				formattedData[ids[projectTable[counter]['user_id']]['index']].insert(0,process(project))
+			counter += np.uint64(1)
+		elif int(projectTable[counter]['project_id']) > 1000000:
+			print projectTable[counter]['project_id'] 
+			print project['project_id']
+			print
 		
-		formattedData[ids[str(projectArray[counter]['user_id'])]].insert(0, process(line))
-		counter += 1
-	return formattedData
-
-
-#main
-data = formatScratchData("projects/projects.csv", "project_blocks/project_blocks.csv")
-for line in data:
-		#if len(line) > 0:
-		print line
-
+	#for lineNum in range(len(formattedData)):
+	#	print str(ids[projectTable[lineNum]['user_id']]['project_count']) + ":" + str(formattedData[lineNum])
 """
-#fields we care about especially for project_blocks and projects
-project_blocks = { 
-		"project_id"
-	}
-projects = {
-		project_id	
-		user_id		
- """
+def formatScratchData(projects_, project_blocks_, min_projects):
+	projects = open(projects_, "rb")#initialize the csv readers
+	project_blocks = open(project_blocks_, "rb")
+	readProjects = csv.DictReader(projects) 
+	readBlocks = csv.DictReader(project_blocks) 
+	projectTable = {}
+	ids = {}
+	formattedData = []
+	print "Initializing Project Lists:"
+	for project in readProjects:
+		projectTable[project['project_id']] = {'user_id':project['user_id'], 'project_id':project['project_id']}
+		if project['user_id'] not in ids:
+			ids[project['user_id']] = {'project_count':1, 'index':len(ids)}
+			formattedData.append([])
+		else:
+			ids[project['user_id']]['project_count'] += 1
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	print "Building Time Series:"
+	for line in readBlocks:
+		if ids[projectTable[line['project_id']]['user_id']]['project_count'] >= min_projects:
+			formattedData[ids[projectTable[line['project_id']]['user_id']]['index']].insert(0,process(line))
+			#print projectTable[line['project_id']]['project_id']
+			#print line['project_id']
+			#print
+		
+	offset = 0
+	"""for user in ids:
+		#print ids[user]['project_count']
+		ids[user]['index'] -= realignment
+		if ids[user]['project_count'] < min_projects:
+			formattedData.pop(ids[user]['index'])
+			realignment += 1
+		else:
+			print ids[user]['index']
+			print len(formattedData)
+			if len(formattedData[ids[user]['index']]) < min_projects:
+				formattedData.pop(ids[user]['index'])
+				realignment += 1"""
+	print "Removing Time Series With Less Than " + str(min_projects) + " Projects:"
+	i = 0
+	while i < len(formattedData):
+		if len(formattedData[i]) < min_projects:
+			formattedData.pop(i)
+			i -= 1
+		i += 1
+		
+	return formattedData
+		
+#main
+data = formatScratchData("projects/projects.csv", "project_blocks/project_blocks.csv", 4)
+for line in data:
+	print line
