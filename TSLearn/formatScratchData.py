@@ -8,7 +8,7 @@ import numpy as np
 	returns an array [0,0,0,0,0]
 """
 def process(project_dictionary):
-	return [0,0,0,0,0]
+	return [0,0,0,0,0,0,0]
 
 
 
@@ -21,95 +21,65 @@ def process(project_dictionary):
 	field and all other scratch datafields. Each line here should correspond to a
 	line in the projects csv file directly as the project_id field from each should
 	match on each line
-
-"""
-"""def formatScratchData(projects_, project_blocks_, min_projects):
-	projects = open(projects_, "rb")#initialize the csv readers
-	project_blocks = open(project_blocks_, "rb")
-	readProjects = csv.DictReader(projects) 
-	readBlocks = csv.DictReader(project_blocks) 
-	projectTable = []#used to store projects_['user_id'] and projects_['project_id']
-	ids = {}	#Stores location in formattedData to insert processed data by user id
-	formattedData = []#stores processed data by user id
-	counter = np.uint64(0)
-	for project in readProjects:
-		projectTable.append({'project_id':project['project_id'], 'user_id':project['user_id']})
-		if project['user_id'] not in ids:
-			ids[project['user_id']] = {'project_count':1, 'index':len(ids)}
-			formattedData.append([])
-		else:
-			ids[project['user_id']]['project_count'] += np.uint64(1)
-			
-	counter = np.uint64(0)
-	for project in readBlocks:
-		while int(projectTable[counter]['project_id']) < int(project['project_id']):
-			ids[projectTable[counter]['user_id']]['project_count'] -= 1
-			counter += np.uint64(1)
-		if int(projectTable[counter]['project_id']) == int(project['project_id']):
-			
-			print projectTable[counter]['project_id'] 
-			print project['project_id']
-			print
-			if ids[projectTable[counter]['user_id']]['project_count'] >= min_projects:
-				formattedData[ids[projectTable[counter]['user_id']]['index']].insert(0,process(project))
-			counter += np.uint64(1)
-		elif int(projectTable[counter]['project_id']) > 1000000:
-			print projectTable[counter]['project_id'] 
-			print project['project_id']
-			print
-		
-	#for lineNum in range(len(formattedData)):
-	#	print str(ids[projectTable[lineNum]['user_id']]['project_count']) + ":" + str(formattedData[lineNum])
+@param: min_projects
+	the minimum number of projects for a user for the time series of their programs to
+	be included in the returned formatted dataset
+@return: an array of length 2
+	The 1st index is the user id.
+	The 2nd index (result[1]) is a time series dataset where each time series 
+	has at least min_projects projects. This corresponds with the user id
 """
 def formatScratchData(projects_, project_blocks_, min_projects):
-	projects = open(projects_, "rb")#initialize the csv readers
-	project_blocks = open(project_blocks_, "rb")
-	readProjects = csv.DictReader(projects) 
-	readBlocks = csv.DictReader(project_blocks) 
-	projectTable = {}
-	ids = {}
-	formattedData = []
-	print "Initializing Project Lists:"
-	for project in readProjects:
+	#########DEBUG STATEMENT: Initialize CSV Readers############################
+	print "Stage [1/5] Initializing CSV Readers:"
+	try:
+		projects = open(projects_, "rb")#initialize the csv readers
+		project_blocks = open(project_blocks_, "rb")
+		readProjects = csv.DictReader(projects) 
+		readBlocks = csv.DictReader(project_blocks)
+	except: #If a file failed to open
+		print "ERROR: File Not Found, Returning Empty List"#print error msg and return empty list
+		return [[],[]]
+	projectTable = {} #projectTable[project_id] = {user_id, project_id}
+	ids = {}		  #ids[user_id] =             {project_count, index}
+	formattedData = [[],[]]    	#formattedData[0] -> user ids
+								#formattedData[1] -> processed project data
+	#########DEBUG STATEMENT: Intialize Project Lists###########################
+	print "Stage [2/5] Initializing Project Lists:"
+	for project in readProjects:#add project to projectTable
 		projectTable[project['project_id']] = {'user_id':project['user_id'], 'project_id':project['project_id']}
-		if project['user_id'] not in ids:
+		if project['user_id'] not in ids:#if project's user id not in id list
 			ids[project['user_id']] = {'project_count':1, 'index':len(ids)}
-			formattedData.append([])
+			formattedData[0].append(project['user_id'])
+			formattedData[1].append([])#add project user id to id list
 		else:
 			ids[project['user_id']]['project_count'] += 1
-
-	print "Building Time Series:"
+	#########DEBUG STATEMENT: Building Time Series##############################
+	print "Stage [3/5] Building Time Series:"
 	for line in readBlocks:
+		#for each project if associated user has at least min_projects
 		if ids[projectTable[line['project_id']]['user_id']]['project_count'] >= min_projects:
-			formattedData[ids[projectTable[line['project_id']]['user_id']]['index']].insert(0,process(line))
-			#print projectTable[line['project_id']]['project_id']
-			#print line['project_id']
-			#print
-		
-	offset = 0
-	"""for user in ids:
-		#print ids[user]['project_count']
-		ids[user]['index'] -= realignment
-		if ids[user]['project_count'] < min_projects:
-			formattedData.pop(ids[user]['index'])
-			realignment += 1
-		else:
-			print ids[user]['index']
-			print len(formattedData)
-			if len(formattedData[ids[user]['index']]) < min_projects:
-				formattedData.pop(ids[user]['index'])
-				realignment += 1"""
-	print "Removing Time Series With Less Than " + str(min_projects) + " Projects:"
+			formattedData[1][ids[projectTable[line['project_id']]['user_id']]['index']].insert(0,process(line)) #then process project and insert at beginning
+								   #of associated time series
+			#we insert at beginning because in the dataset, more recent projetcs
+			#get processed before older projects which is the opposite order
+			#as we want to create a time series
+
+	#########DEBUG STATEMENT: Removing Time Series That Are Too Small###########
+	print "Stage [4/5] Removing Time Series With Less Than " + str(min_projects) + " Projects:"
 	i = 0
-	while i < len(formattedData):
-		if len(formattedData[i]) < min_projects:
-			formattedData.pop(i)
+	while i < len(formattedData[0]):
+		if len(formattedData[1][i]) < min_projects:
+			formattedData[0].pop(i)
+			formattedData[1].pop(i)
 			i -= 1
 		i += 1
-		
+	#########DEBUG STATEMENT: Returning Result##################################
+	print "Stage [5/5] Returning Result:"
 	return formattedData
 		
 #main
 data = formatScratchData("projects/projects.csv", "project_blocks/project_blocks.csv", 4)
-for line in data:
-	print line
+for i in range(len(data[0])):
+	print str(data[0][i]) + ":" + str(data[1][i])
+
