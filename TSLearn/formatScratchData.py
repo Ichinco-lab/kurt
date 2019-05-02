@@ -1,11 +1,10 @@
 import csv
-import numpy as np
-
+import cPickle as pickle
 """
 @param: project_dictionary
 	a dictionary format version of a line from the scratch csv dataset we are using
 @return: an array filled with int values. for now this is just a stub function which
-	returns an array [0,0,0,0,0]
+	returns an array [0,0,0,0,0,0,0]
 """
 def process(project_dictionary):
 	return [0,0,0,0,0,0,0]
@@ -29,23 +28,26 @@ def process(project_dictionary):
 	The 2nd index (result[1]) is a time series dataset where each time series 
 	has at least min_projects projects. This corresponds with the user id
 """
-def formatScratchData(projects_, project_blocks_, min_projects):
+def formatScratchData(projects_, project_blocks_, min_projects, enableDebugText):
 	#########DEBUG STATEMENT: Initialize CSV Readers############################
-	print "Stage [1/5] Initializing CSV Readers:"
+	if (enableDebugText):
+		print "Stage [1/5] Initializing CSV Readers:"
 	try:
 		projects = open(projects_, "rb")#initialize the csv readers
 		project_blocks = open(project_blocks_, "rb")
 		readProjects = csv.DictReader(projects) 
 		readBlocks = csv.DictReader(project_blocks)
-	except: #If a file failed to open
-		print "ERROR: File Not Found, Returning Empty List"#print error msg and return empty list
+	except: #If a file failed to open then print error msg and return empty list
+		if (enableDebugText):
+			print "ERROR: File Not Found, Returning Empty List"
 		return [[],[]]
 	projectTable = {} #projectTable[project_id] = {user_id, project_id}
 	ids = {}		  #ids[user_id] =             {project_count, index}
 	formattedData = [[],[]]    	#formattedData[0] -> user ids
 								#formattedData[1] -> processed project data
 	#########DEBUG STATEMENT: Intialize Project Lists###########################
-	print "Stage [2/5] Initializing Project Lists:"
+	if (enableDebugText):
+		print "Stage [2/5] Initializing Project Lists:"
 	for project in readProjects:#add project to projectTable
 		projectTable[project['project_id']] = {'user_id':project['user_id'], 'project_id':project['project_id']}
 		if project['user_id'] not in ids:#if project's user id not in id list
@@ -55,7 +57,8 @@ def formatScratchData(projects_, project_blocks_, min_projects):
 		else:
 			ids[project['user_id']]['project_count'] += 1
 	#########DEBUG STATEMENT: Building Time Series##############################
-	print "Stage [3/5] Building Time Series:"
+	if (enableDebugText):
+		print "Stage [3/5] Building Time Series:"
 	for line in readBlocks:
 		#for each project if associated user has at least min_projects
 		if ids[projectTable[line['project_id']]['user_id']]['project_count'] >= min_projects:
@@ -66,7 +69,8 @@ def formatScratchData(projects_, project_blocks_, min_projects):
 			#as we want to create a time series
 
 	#########DEBUG STATEMENT: Removing Time Series That Are Too Small###########
-	print "Stage [4/5] Removing Time Series With Less Than " + str(min_projects) + " Projects:"
+	if (enableDebugText):
+		print "Stage [4/5] Removing Time Series With Less Than " + str(min_projects) + " Projects:"
 	i = 0
 	while i < len(formattedData[0]):
 		if len(formattedData[1][i]) < min_projects:
@@ -75,11 +79,37 @@ def formatScratchData(projects_, project_blocks_, min_projects):
 			i -= 1
 		i += 1
 	#########DEBUG STATEMENT: Returning Result##################################
-	print "Stage [5/5] Returning Result:"
+	if (enableDebugText):
+		print "Stage [5/5] Returning Result:"
 	return formattedData
 		
+		
+	
+	
+	
+	
+def writeTimeSeriesToFile(filename, timeSeries):
+	with open(filename, 'wb') as f:
+   		pickle.dump(timeSeries, f)
+
+
+
+
+def readTimeSeriesFromFile(filename):
+	f = open(filename, 'rb')
+	timeSeries = pickle.load(f)
+	return timeSeries
+		
+		
+		
+		
+		
+		
+		
+		
+		
 #main
-data = formatScratchData("projects/projects.csv", "project_blocks/project_blocks.csv", 4)
-for i in range(len(data[0])):
-	print str(data[0][i]) + ":" + str(data[1][i])
+#data = formatScratchData("projects/projects.csv", "project_blocks/project_blocks.csv", 4, True)
+#for i in range(len(data[0])):
+#	print str(data[0][i]) + ":" + str(data[1][i])
 
