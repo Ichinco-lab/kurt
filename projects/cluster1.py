@@ -1,12 +1,3 @@
-# Abstraction
-# Parallelism
-# Logical Thinking: Operators + if_else + if
-# Synchronization
-# Flow control: doforever + doforeverif + doifelse + doif + dorepeat + doreturn + dountil + dowaituntil
-# User Interactivity
-# Data representation
-#
-# eventhatmorph_startclicked:
 
 def process(myDict):
     logical_thinking = 0
@@ -22,6 +13,8 @@ def process(myDict):
     psocv = 0
     wait_condition = 0
     synchronization = 0
+    kam = 0
+    user_interactivity = 0
     #
     # for dicts in myDict:
     #     for keys in dicts:
@@ -36,8 +29,8 @@ def process(myDict):
     if int(myDict["doifelse"]) >= 1:
         if_else = 1
     logical_thinking = operators + i + if_else
-    print("Logical Thinking Value:")
-    print(logical_thinking)
+    # print("Logical Thinking Value:")
+    # print(logical_thinking)
 
 #This is the Flow Control : CT Concept
 # Flow control: doforever + doforeverif + doifelse + doif + dorepeat + doreturn + dountil + dowaituntil
@@ -48,8 +41,8 @@ def process(myDict):
     if int(myDict["dountil"]) >= 1 or int(myDict["dowaituntil"]) >=1:
         repear_until = 1
     flow_control = sequence_of_blocks + repeat_forever + repear_until
-    print("Flow Control Value:")
-    print(flow_control)
+    # print("Flow Control Value:")
+    # print(flow_control)
 
 #This is the Data Representation
 # Data Repesentation =Position + Size + Orientation + Costume + Visibility
@@ -80,11 +73,24 @@ def process(myDict):
     if int(myDict["dobroadcastandwait"]) >= 1 or int(myDict["doplaysoundandwait"]) >= 1 or int(myDict["dowaituntil"]) >= 1 or int(myDict["wait_elapsed_from"]) >= 1:
         wait_condition = 1
     synchronization += wait_condition
-    print("Synchronization Value:")
-    print(synchronization)
+    # print("Synchronization Value:")
+    # print(synchronization)
 
 #PARALLELISM : Clicks + Keys + When
 #When the sprite is clicked: whenhatblockmorph
 #nextbackground  timer timerreset isloud stopallsounds doplaysoundandwait
+
+#USER INTERACTIVITY :
+#WHEN green flag is clicked
+     # if int(myDict[""]) >= 1:
+     #     green_click = 1
+#interact with your characters by pressing keys to move, writing answers to questions and your characters use user responses, move characters with the mouse, or perform actions when the user clicks an object
+# move + user repsponse webcam sound
+#eventhatmorph_startclicked mouseclickeventhatmorph gotospriteormouse mousepressed mousex mousey askyahoo
+#wait_elapsed_from dobroadcastandwait doplaysoundandwait dowaituntil doask gotospriteormouse keypressed
+    if int(myDict["doplaysoundandwait"]) >= 1 or int(myDict["playsound"]) >= 1 or int(myDict["rewindsound"]) >= 1 or int(myDict["stopallsounds"]) >= 1 or int(myDict["eventhatmorph_startclicked"]) >= 1 or int(myDict["mouseclickeventhatmorph"]) >= 1 or int(myDict["gotospriteormouse"]) >= 1 or int(myDict["mousepressed"]) >= 1 or int(myDict["mousex"]) >= 1 or int(myDict["mousey"]) >= 1 or int(myDict["askyahoo"]) >= 1 or int(myDict["wait_elapsed_from"]) >= 1 or int(myDict["dobroadcastandwait"])>= 1 or int(myDict["doplaysoundandwait"]) >= 1 or int(myDict["dowaituntil"]) >= 1 or int(myDict["doask"]) >= 1 or int(myDict["gotospriteormouse"]) >= 1 or int(myDict["keypressed"]) >= 1:
+        kam = 1
+    user_interactivity += 1
+    print(user_interactivity)
     #Returning all the 7 values
-    return [logical_thinking,flow_control,data_representation,synchronization]
+    return [logical_thinking,flow_control,data_representation,synchronization,user_interactivity]
