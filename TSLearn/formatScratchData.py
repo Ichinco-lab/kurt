@@ -25,7 +25,7 @@ def process(project_dictionary):
 	be included in the returned formatted dataset
 @return: an array of length 2
 	The 1st index is the user id.
-	The 2nd index (result[1]) is a time series dataset where each time series 
+	The 2nd index (result[1]) is a time series dataset where each time series
 	has at least min_projects projects. This corresponds with the user id
 """
 def formatScratchData(projects_, project_blocks_, min_projects, enableDebugText):
@@ -35,7 +35,7 @@ def formatScratchData(projects_, project_blocks_, min_projects, enableDebugText)
 	try:
 		projects = open(projects_, "rb")#initialize the csv readers
 		project_blocks = open(project_blocks_, "rb")
-		readProjects = csv.DictReader(projects) 
+		readProjects = csv.DictReader(projects)
 		readBlocks = csv.DictReader(project_blocks)
 	except: #If a file failed to open then print error msg and return empty list
 		if (enableDebugText):
@@ -82,12 +82,12 @@ def formatScratchData(projects_, project_blocks_, min_projects, enableDebugText)
 	if (enableDebugText):
 		print "Stage [5/5] Returning Result:"
 	return formattedData
-		
-		
-	
-	
-	
-	
+
+
+
+
+
+
 def writeTimeSeriesToFile(filename, timeSeries):
 	with open(filename, 'wb') as f:
    		pickle.dump(timeSeries, f)
@@ -99,17 +99,16 @@ def readTimeSeriesFromFile(filename):
 	f = open(filename, 'rb')
 	timeSeries = pickle.load(f)
 	return timeSeries
-		
-		
-		
-		
-		
-		
-		
-		
-		
-#main
-#data = formatScratchData("projects/projects.csv", "project_blocks/project_blocks.csv", 4, True)
-#for i in range(len(data[0])):
-#	print str(data[0][i]) + ":" + str(data[1][i])
 
+
+
+
+
+
+
+
+
+#main
+data = formatScratchData("projects/projects.csv", "project_blocks/project_blocks.csv", 4, True)
+for i in range(len(data[0])):
+	print str(data[0][i]) + ":" + str(data[1][i])
