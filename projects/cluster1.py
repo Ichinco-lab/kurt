@@ -13,13 +13,12 @@ def process(myDict):
     psocv = 0
     wait_condition = 0
     synchronization = 0
-    kam = 0
-    user_interactivity = 0
-    #
-    # for dicts in myDict:
-    #     for keys in dicts:
-    #         dicts[keys] = int(dicts[keys])
-
+    sync_proficiency = 0
+    sync_develop = 0
+    variable_operations = 0
+    ui_develop = 0
+    green_flag = 0
+    ui = 0
 #This is the logical Thinking : CT Concept
 #Logical Thinking: Operators + if_else + if
     if int(myDict["islessthan"]) >= 1 or int(myDict["and_operator"]) >= 1 or int(myDict["isequalto"]) >= 1 or int(myDict["isgreaterthan"]) >= 1 or int(myDict["or_operator"]) >= 1 or int(myDict["not"]) >= 1:
@@ -32,21 +31,16 @@ def process(myDict):
     # print("Logical Thinking Value:")
     # print(logical_thinking)
 
-#This is the Flow Control : CT Concept
+# Flow Control : CT Concept
 # Flow control: doforever + doforeverif + doifelse + doif + dorepeat + doreturn + dountil + dowaituntil
-    if int(myDict["doforever"]) >= 1 or int(myDict["doforeverif"]) >= 1 or int(myDict["doifelse"]) >= 1 or int(myDict["doif"]) >= 1:
+    if myDict["doifelse"] >= 1 or myDict["doif"] >= 1:
         sequence_of_blocks = 1
-    if int(myDict["dorepeat"]) >= 1:
+    if myDict["dorepeat"] >= 1 or myDict["doforever"] >= 1 or myDict["doforeverif"] >= 1:
         repeat_forever= 1
-    if int(myDict["dountil"]) >= 1 or int(myDict["dowaituntil"]) >=1:
+    if myDict["dountil"] >= 1:
         repear_until = 1
     flow_control = sequence_of_blocks + repeat_forever + repear_until
-    # print("Flow Control Value:")
-    # print(flow_control)
-
-#This is the Data Representation
-# Data Repesentation =Position + Size + Orientation + Costume + Visibility
-
+    #print(flow_control)
 
 # #POSITION: "gobackbylayers","gotospriteormouse","gotox_y","gotox_y_duration_elapsed_from","glidesecs_tox_y_elapsed_from","changebackgroundindexby",
     # "changeblurby","changebrightnessshiftby","changecostumeindexby","changefisheyeby",changegraphiceffect_by","changehueshiftby","changemosaiccountby","changepenhueby","changepenshadeby",
@@ -60,7 +54,9 @@ def process(myDict):
 #List: insert_at_of_list append_tolist contentsoflist deletelineoflist getline_of_list "linecountoflist" list_contains doask
     if int(myDict["gobackbylayers"]) >= 1 or int(myDict["gotospriteormouse"]) >= 1 or int(myDict["gotox_y"]) >= 1 or int(myDict["gotox_y_duration_elapsed_from"]) >= 1 or int(myDict["glidesecs_tox_y_elapsed_from"]) >= 1 or int(myDict["changebackgroundindexby"]) >= 1 or int(myDict["changeblurby"]) >= 1 or int(myDict["gotox_y_duration_elapsed_from"]) >= 1 or int(myDict["changebrightnessshiftby"]) >= 1 or int(myDict["changecostumeindexby"]) >= 1 or int(myDict["changefisheyeby"]) >= 1 or int(myDict["changegraphiceffect_by"]) >= 1 or int(myDict["changehueshiftby"]) >= 1 or int(myDict["changemosaiccountby"]) >= 1 or int(myDict["changepenhueby"]) >= 1 or int(myDict["changepenshadeby"]) >= 1 or int(myDict["changepensizeby"]) >= 1 or int(myDict["changepixelatecountby"]) >= 1 or int(myDict["changesaturationshiftby"]) >= 1 or int(myDict["changestretchby"]) >= 1 or int(myDict["changetempoby"]) >= 1 or int(myDict["changevarby"]) >= 1 or int(myDict["changevolumeby"]) >= 1 or int(myDict["changewaterrippleby"]) >= 1 or int(myDict["changexposby"]) >= 1 or int(myDict["changeyposby"]) >= 1 or int(myDict["changesizeby"]) >= 1 or int(myDict["changepensizeby"]) >= 1 or int(myDict["setsizeto"]) >= 1 or int(myDict["setpointillizesizeto"]) >= 1 or int(myDict["point_in_direction"]) >= 1 or int(myDict["pointtowards"]) >= 1 or int(myDict["turnawayfromedge"]) >= 1 or int(myDict["turnleft"]) >= 1 or int(myDict["turnright"]) >= 1 or int(myDict["show"]) >= 1 or int(myDict["showbackground"]) >= 1 or int(myDict["showvariable"]) >= 1 or int(myDict["hide"]) >= 1 or int(myDict["hidevariable"]) >= 1 or int(myDict["nextbackground"]) >= 1 or int(myDict["nextcostume"]) >= 1:
         psocv = 1
-    if int(myDict["insert_at_of_list"]) >= 1 or int(myDict["list_contains"]) >= 1 or int(myDict["doask"]) >= 1 or int(myDict["linecountoflist"]) >= 1 or int(myDict["append_tolist"]) >= 1 or int(myDict["contentsoflist"]) >= 1 or int(myDict["deletelineoflist"]) >= 1 or int(myDict["getline_of_list"]) >= 1:
+    if int(myDict["readvariable"]) >= 1 or int(myDict["showvariable"]) >= 1 or int(myDict["hidevariable"]) >= 1:
+        variable_operations = 1
+    if int(myDict["insert_at_of_list"]) >= 1 or int(myDict["list_contains"]) >= 1 or  int(myDict["linecountoflist"]) >= 1 or int(myDict["append_tolist"]) >= 1 or int(myDict["contentsoflist"]) >= 1 or int(myDict["deletelineoflist"]) >= 1 or int(myDict["getline_of_list"]) >= 1:
         list_operations = 1
     data_representation = psocv + list_operations
 
@@ -70,27 +66,24 @@ def process(myDict):
 #SYNCHRONIZATION: wait + when
 #WAIT:  dobroadcastandwait doplaysoundandwait dowaituntil wait_elapsed_from
 #wHEN:
-    if int(myDict["dobroadcastandwait"]) >= 1 or int(myDict["doplaysoundandwait"]) >= 1 or int(myDict["dowaituntil"]) >= 1 or int(myDict["wait_elapsed_from"]) >= 1:
+    if int(myDict["wait_elapsed_from"]) >= 1:
         wait_condition = 1
-    synchronization += wait_condition
+    if  int(myDict["broadcast"]) >= 1 or int(myDict["dobroadcastand"]) >= 1 or int(myDict["stopall"]) >= 1:
+        sync_develop = 1
+    if  int(myDict["dobroadcastandwait"]) >= 1 or int(myDict["dowaituntil"]) >= 1:
+        sync_proficiency = 1
+    synchronization = wait_condition + sync_proficiency + sync_develop
     # print("Synchronization Value:")
-    # print(synchronization)
+    # # print(synchronization)
 
-#PARALLELISM : Clicks + Keys + When
-#When the sprite is clicked: whenhatblockmorph
-#nextbackground  timer timerreset isloud stopallsounds doplaysoundandwait
+    #USER INTERACTIVITY
+    if int(myDict["eventhatmorph_startclicked"]) >= 1:
+        green_flag = 1
+    if  int(myDict["keyeventhatmorph"]) >= 1 or int(myDict["keypressed"]) >= 1 or int(myDict["doask"]) >= 1 or int(myDict["mousex"]) >= 1 or int(myDict["mousey"]) >= 1 or int(myDict["mousepressed"]) >= 1:
+        ui_develop = 1
 
-#USER INTERACTIVITY :
-#WHEN green flag is clicked
-     # if int(myDict[""]) >= 1:
-     #     green_click = 1
-#interact with your characters by pressing keys to move, writing answers to questions and your characters use user responses, move characters with the mouse, or perform actions when the user clicks an object
-# move + user repsponse webcam sound
-#eventhatmorph_startclicked mouseclickeventhatmorph gotospriteormouse mousepressed mousex mousey askyahoo
-#wait_elapsed_from dobroadcastandwait doplaysoundandwait dowaituntil doask gotospriteormouse keypressed
-    if int(myDict["doplaysoundandwait"]) >= 1 or int(myDict["playsound"]) >= 1 or int(myDict["rewindsound"]) >= 1 or int(myDict["stopallsounds"]) >= 1 or int(myDict["eventhatmorph_startclicked"]) >= 1 or int(myDict["mouseclickeventhatmorph"]) >= 1 or int(myDict["gotospriteormouse"]) >= 1 or int(myDict["mousepressed"]) >= 1 or int(myDict["mousex"]) >= 1 or int(myDict["mousey"]) >= 1 or int(myDict["askyahoo"]) >= 1 or int(myDict["wait_elapsed_from"]) >= 1 or int(myDict["dobroadcastandwait"])>= 1 or int(myDict["doplaysoundandwait"]) >= 1 or int(myDict["dowaituntil"]) >= 1 or int(myDict["doask"]) >= 1 or int(myDict["gotospriteormouse"]) >= 1 or int(myDict["keypressed"]) >= 1:
-        kam = 1
-    user_interactivity += 1
-    print(user_interactivity)
+    ui = ui_develop + green_flag
+    # print("Synchronization Value:")
+    # # print(synchronization)
     #Returning all the 7 values
-    return [logical_thinking,flow_control,data_representation,synchronization,user_interactivity]
+    return [logical_thinking,flow_control,data_representation,synchronization,ui]
