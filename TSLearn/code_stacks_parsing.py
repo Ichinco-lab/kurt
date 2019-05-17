@@ -1,65 +1,106 @@
 import json
-
+import csv
 data_dict={}
-
+totalSpriteCount= 0
+emptySpriteCount= 0 
+knownCondition= 0
 with open('project_block_stacks_mini.json') as f:
+	
 	for line in f:
+		totalSpriteCount+= 1
 		try:
 			data = json.loads(line)
 			proj_id=data["project_id"]
 			proj_data = {"greenflags":0, "definitions":0, "clones":0,"event":0, "op_on_var":0}
-
+				#####Add entry for proj_id id needed###############
 			if proj_id not in data_dict.keys():
 				data_dict[proj_id] = proj_data
-			if 'Scratch-StartClicked' in data['stack_squeak']:
-				data_dict[proj_id]["greenflags"]+=1
-			elif 'Scratch-MouseClickEvent' in data['stack_squeak']:
-				for word in data['stack_squeak'].split(): 
-					if 'Scratch-MouseClickEvent' in word:			
-						if "mouseclicked"+str(data["sprite_id"]) in data_dict[proj_id].keys():
-							data_dict[proj_id]["mouseclicked"+str(data["sprite_id"])]+=1
-						else:
-							data_dict[proj_id]["mouseclicked"+str(data["sprite_id"])]=1
-
-
-
-
-
-			elif 'KeyEventHatMorph' in data['stack_squeak']:
-				#data_dict[proj_id]["keypressed"]+=1
-				k= data['stack_squeak'].split('"')[1]
-				if "keypressed"+data['stack_squeak'].split('"')[1].strip().strip() in data_dict[proj_id].keys():
-					data_dict[proj_id]["keypressed"+data['stack_squeak'].split('"')[1].strip()]+=1
-				else:
-					data_dict[proj_id]["keypressed"+data['stack_squeak'].split('"')[1].strip()]=1
-
-			elif 'MouseEventHatMorph' in data['stack_squeak']:
-				k= data['stack_squeak'].split('"')[1]
-				if "mouseevent"+data['stack_squeak'].split('"')[1].strip().strip() in data_dict[proj_id].keys():
-					data_dict[proj_id]["mouseevent"+data['stack_squeak'].split('"')[1].strip()]+=1
-				else:
-					data_dict[proj_id]["mouseevent"+data['stack_squeak'].split('"')[1].strip()]=1
-			
-			elif 'EventHatMorph' in data['stack_squeak']:
-				for word in data['stack_squeak']:
-					if 'EventHatMorph' in word and 'KeyEventHatMorph' not in word and 'MouseEventHatMorph' not in word:
-						data_dict[proj_id]["event"]+=1
-			
-			elif 'Hat' in data['stack_squeak']:
-				pass
-			
-			if 'setVar' in data['stack_squeak']:
-				for setVarEvent in data['stack_squeak'].split('setVar')[1:]:
-					setVarToWhat = setVarEvent.split(")")
-				if '+' in setVarToWhat or '-' in setVarToWhat or '*' in setVarToWhat or '/' in setVarToWhat:
-						data_dict[proj_id]["op_on_var"] +=1
-			
-			for key in data_dict.keys():
-				for key2 in data_dict[key].keys():
-					if 'mouseclicked' in key2:
-						#print data_dict
-						print str(key) + ":" + str(key2)
+			stackSqueak = data['stack_squeak'].split()
+			if len(stackSqueak) is 0:
+				emptySpriteCount+= 1
+			startConditionFound = False
+			for i in range(len(stackSqueak)):
+				if '(EventHatMorph' in stackSqueak[i]:
+				#####When Program Starts###########################
+					startConditionFound = True
+					if "Scratch-StartClicked" in stackSqueak[i+1]:
+						data_dict[proj_id]["greenflags"] += 1
+						#print str(proj_id) + ":greenflags:" + str(data_dict[proj_id]["greenflags"])			
+				#####When Broadcast Recieved#######################	
+					else:
+						key = "broadcast"
+						j = i #Generate the key
+						while '")' not in stackSqueak[j]:
+							j+=1
+							key += stackSqueak[j].strip('":(\')')
+						try: #update based on the key
+							data_dict[proj_id][key] += 1
+						except:
+							data_dict[proj_id].update({key:1})
+						#print str(proj_id) + ":" + key + ":" + str(data_dict[proj_id][key])	
+				#####When Mouse Clicked############################
+				elif '(MouseClickEventHatMorph' in stackSqueak[i]:
+					startConditionFound = True
+					key = "mouseclicked" + str(data["sprite_id"])
+					try:
+						data_dict[proj_id][key] += 1
+					except:
+						data_dict[proj_id].update({key:1})
+					#print str(proj_id) + ":" + key + ":" + str(data_dict[proj_id][key])	
+				#####When Key Pressed##############################
+				elif '(KeyEventHatMorph' in stackSqueak[i]:
+					startConditionFound = True
+					key = "keypressed" + str(stackSqueak[i+1].strip()[1:-2])
+					try:
+						data_dict[proj_id][key] += 1
+					except:
+						data_dict[proj_id].update({key:1})
+					#print str(proj_id) + ":" + key + ":" + str(data_dict[proj_id][key])
+				#####When Case Is true#############################
+				elif '(WhenHatBlockMorph' in stackSqueak[i]:
+					startConditionFound = True
+					key = "condition"
+					j = i + 1
+					nesting = 1
+					while nesting > 0:
+						for char in stackSqueak[j]:
+							#print char
+							if char in "(":
+								nesting += 1
+							elif char in ")":
+								nesting -= 1
+							if nesting is 0:
+								break
+						key += str(stackSqueak[j]).strip('(:\'")')	
+						j += 1
+					try:
+						data_dict[proj_id][key] += 1
+					except:
+						data_dict[proj_id].update({key:1})
+					#print str(proj_id) + ":" + key + ":" + str(data_dict[proj_id][key])
+			#####Debug Text########################################	
+			if startConditionFound:
+				knownCondition += 1
+				startcondtionFound = False
+			elif len(stackSqueak) is not 0:
+				print "######ERROR_NO_HAT######"+str(proj_id) + ":" + str(data["sprite_id"])					
 		except:
 			print "Uh-Oh"
 			pass
-			#print line
+
+
+			#####Write To CSV FILE#################################	
+try:
+	rawWriter = open("stack.csv","wb")
+	writer    = csv.DictWriter(rawWriter, fieldnames=["project_id","data"])
+except:
+	print "File Failed To Open For Writing"
+writer.writeheader()
+for key in data_dict.keys():
+	writer.writerow({"project_id":key,"data":data_dict[key]})
+rawWriter.close()
+			#####Debug Text########################################
+print "Total Sprites:   " + str(totalSpriteCount)	
+print "Known Condition: " + str(knownCondition)		
+print "Empty Sprites:   " + str(emptySpriteCount)
+print "No Hat Blocks:   " + str(totalSpriteCount - (knownCondition+emptySpriteCount))

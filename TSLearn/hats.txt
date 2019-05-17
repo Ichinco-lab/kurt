@@ -1,0 +1,36 @@
+when green flag clicked
+when I am clicked
+Scratch-StartClicked
+Scratch-MouseClickEvent
+MouseClickEventHatMorph
+when I receive
+
+
+
+
+(EventHatMorph  	
+	Scratch-StartClicked,
+	[when I recieve]
+(MouseClickEventHatMorph 
+	Scratch-MouseClickEvent
+(KeyEventHatMorph
+	[a character a-z,A-Z,0-9,space,tab,etc]
+(WhenHatBlockMorph 
+	(WhenHatBlockMorph (=readVariable (= (readVariable \"count bones \") \"10\")))
+	(WhenHatBlockMorph (touching: \"Sprite@91ca84\"))
+	(keyPressed: \"space\"))
+	(WhenHatBlockMorph (touchingColor: \"java.awt.Color[r=0,g=0,b=255]\"))
+	(WhenHatBlockMorph (> (timer) \"33\"))
+	(WhenHatBlockMorph (| (touching: \"Sprite@14d3008\") (touching: \"Sprite@8c7160\"))
+	(WhenHatBlockMorph \"false\")Note that in this case, 
+		no inside parenthesis used
+	
+	
+For many functions, scratch uses the "when I recieve" block
+for built in functionality. For example:
+	next background (ln 460)
+	next costume    (ln 470)
+	
+
+	
+
