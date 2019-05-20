@@ -2,10 +2,10 @@ import json
 import csv
 data_dict={}
 totalSpriteCount= 0
-emptySpriteCount= 0 
+emptySpriteCount= 0
 knownCondition= 0
 with open('clones.json') as f:
-	
+
 	for line in f:
 		totalSpriteCount+= 1
 		try:
@@ -20,18 +20,18 @@ with open('clones.json') as f:
 				emptySpriteCount+= 1
 			startConditionFound = False
 			for i in range(len(stackSqueak)):
-				
-					
-					
-					
-					
+
+
+
+
+
 				if '(EventHatMorph' in stackSqueak[i]:
 				#####When Program Starts###########################
 					startConditionFound = True
 					if "Scratch-StartClicked" in stackSqueak[i+1]:
 						data_dict[proj_id]["greenflags"] += 1
-						#print str(proj_id) + ":greenflags:" + str(data_dict[proj_id]["greenflags"])			
-				#####When Broadcast Recieved#######################	
+						#print str(proj_id) + ":greenflags:" + str(data_dict[proj_id]["greenflags"])
+				#####When Broadcast Recieved#######################
 					else:
 						key = "broadcast"
 						j = i #Generate the key
@@ -42,7 +42,7 @@ with open('clones.json') as f:
 							data_dict[proj_id][key] += 1
 						except:
 							data_dict[proj_id].update({key:1})
-						#print str(proj_id) + ":" + key + ":" + str(data_dict[proj_id][key])	
+						#print str(proj_id) + ":" + key + ":" + str(data_dict[proj_id][key])
 				#####When Mouse Clicked############################
 				elif '(MouseClickEventHatMorph' in stackSqueak[i]:
 					startConditionFound = True
@@ -51,7 +51,7 @@ with open('clones.json') as f:
 						data_dict[proj_id][key] += 1
 					except:
 						data_dict[proj_id].update({key:1})
-					#print str(proj_id) + ":" + key + ":" + str(data_dict[proj_id][key])	
+					#print str(proj_id) + ":" + key + ":" + str(data_dict[proj_id][key])
 				#####When Key Pressed##############################
 				elif '(KeyEventHatMorph' in stackSqueak[i]:
 					startConditionFound = True
@@ -76,7 +76,7 @@ with open('clones.json') as f:
 								nesting -= 1
 							if nesting is 0:
 								break
-						key += str(stackSqueak[j]).strip('(:\'")')	
+						key += str(stackSqueak[j]).strip('(:\'")')
 						j += 1
 					try:
 						data_dict[proj_id][key] += 1
@@ -84,15 +84,17 @@ with open('clones.json') as f:
 						data_dict[proj_id].update({key:1})
 					#print str(proj_id) + ":" + key + ":" + str(data_dict[proj_id][key])
 				#	print stackSqueak[i]
+			#####Detect Clone Useage###############################
 				if "(createClone)" in stackSqueak[i] or "(deleteClone)"in stackSqueak[i]:
 					data_dict[proj_id]['clones'] += 1
-					print str(proj_id)
-					
-				
-					
-					
-				data_dict[proj_id]["events"] = len(data_dict[proj_id].keys())-4
-			#####Debug Text########################################	
+					#print str(proj_id)
+			#####Detect Variable Useage############################
+				if "(readVariable" in stackSqueak[i] or "(changeVariable" in stackSqueak[i]:
+					data_dict[proj_id]["op_on_var"] += 1
+					#print str(proj_id) + ":" +str(data_dict[proj_id]["op_on_var"])
+			#####Get Total Event Count#############################
+				data_dict[proj_id]["event"] = len(data_dict[proj_id].keys())-4
+			#####Debug Text########################################
 			if startConditionFound:
 				knownCondition += 1
 				startcondtionFound = False
@@ -100,12 +102,12 @@ with open('clones.json') as f:
 				print "####DEFINITION_FOUND####"+str(proj_id) + ":" + str(data["sprite_id"])
 			elif len(stackSqueak) is not 0:
 				print "######ERROR_NO_HAT######"+str(proj_id) + ":" + str(data["sprite_id"])
-						
+
 		except:
 			print "uh-oh"
 
 
-			#####Write To CSV FILE#################################	
+			#####Write To CSV FILE#################################
 try:
 	rawWriter = open("stack.csv","wb")
 	writer    = csv.DictWriter(rawWriter, fieldnames=["project_id","data"])
@@ -116,7 +118,7 @@ for key in data_dict.keys():
 	writer.writerow({"project_id":key,"data":data_dict[key]})
 rawWriter.close()
 			#####Debug Text########################################
-print "Total Sprites:   " + str(totalSpriteCount)	
-print "Known Condition: " + str(knownCondition)		
+print "Total Sprites:   " + str(totalSpriteCount)
+print "Known Condition: " + str(knownCondition)
 print "Empty Sprites:   " + str(emptySpriteCount)
 print "No Hat Blocks:   " + str(totalSpriteCount - (knownCondition+emptySpriteCount))
