@@ -4,7 +4,7 @@ data_dict={}
 totalSpriteCount= 0
 emptySpriteCount= 0 
 knownCondition= 0
-with open('project_block_stacks_mini.json') as f:
+with open('clones.json') as f:
 	
 	for line in f:
 		totalSpriteCount+= 1
@@ -20,6 +20,11 @@ with open('project_block_stacks_mini.json') as f:
 				emptySpriteCount+= 1
 			startConditionFound = False
 			for i in range(len(stackSqueak)):
+				
+					
+					
+					
+					
 				if '(EventHatMorph' in stackSqueak[i]:
 				#####When Program Starts###########################
 					startConditionFound = True
@@ -78,15 +83,26 @@ with open('project_block_stacks_mini.json') as f:
 					except:
 						data_dict[proj_id].update({key:1})
 					#print str(proj_id) + ":" + key + ":" + str(data_dict[proj_id][key])
+				#	print stackSqueak[i]
+				if "(createClone)" in stackSqueak[i] or "(deleteClone)"in stackSqueak[i]:
+					data_dict[proj_id]['clones'] += 1
+					print str(proj_id)
+					
+				
+					
+					
+				data_dict[proj_id]["events"] = len(data_dict[proj_id].keys())-4
 			#####Debug Text########################################	
 			if startConditionFound:
 				knownCondition += 1
 				startcondtionFound = False
+			elif len(stackSqueak) is not 0 and "definition" in stackSqueak:
+				print "####DEFINITION_FOUND####"+str(proj_id) + ":" + str(data["sprite_id"])
 			elif len(stackSqueak) is not 0:
-				print "######ERROR_NO_HAT######"+str(proj_id) + ":" + str(data["sprite_id"])					
+				print "######ERROR_NO_HAT######"+str(proj_id) + ":" + str(data["sprite_id"])
+						
 		except:
-			print "Uh-Oh"
-			pass
+			print "uh-oh"
 
 
 			#####Write To CSV FILE#################################	
