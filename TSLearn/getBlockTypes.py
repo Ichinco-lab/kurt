@@ -4,13 +4,13 @@ import csv
 data = {}
 #for every unique command in the scratch Program
 #add a key to our dictionary with that command as the key
-with open('clones.json') as f:
+with open('project_block_stacks_mini.json') as f:
 	for line in f:
 		try:
 			sprite = json.loads(line)
 			for word in sprite['stack_squeak'].split():
-				if  word[0] in '(' and word.strip("()") not in data.keys() and len(word) > 3:
-					data.update({word.strip("()"):1})
+				if  word[0] in '(' and word.strip("(:)") not in data.keys() and len(word) > 3:
+					data.update({word.strip("(:)"):1})
 		except:
 			print "Uh-Oh"
 
