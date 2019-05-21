@@ -9,7 +9,7 @@ with open('clones.json') as f:
 		try:
 			sprite = json.loads(line)
 			for word in sprite['stack_squeak'].split():
-				if word.strip("()") not in data.keys() and word[0] in '(' and len(word) > 3:
+				if  word[0] in '(' and word.strip("()") not in data.keys() and len(word) > 3:
 					data.update({word.strip("()"):1})
 		except:
 			print "Uh-Oh"
