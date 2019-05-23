@@ -6,43 +6,58 @@
 
 
 
-
+def getCodeStackFields(line):
+	fields = {
+		"parallelism": getParallelism(line),
+		"abstraction": getAbstraction(line)
+	}
+	return fields
 
 
 def getParallelism(line):
 	greenflags = 0
 	onclick = 0
 	userdefined = 0
-	for key in line.keys():
-		if line[key > 1]
-			if "greenflags" in key:
-				greenflags = 1
-			elif "mouseclicked" in key or "keypressed" in key:
-				onclick = 1
-			elif "broadcast" in key or "condition" in key:
-				userdefined = 1
+	data = line["data"].split()
+	for i in range(len(data)-1):
+		try:
+			if int(data[i+1].strip(",}")) > 1:
+				if "greenflags" in data[i]:
+					greenflags = 1
+				elif "mouseclicked" in data[i] or "keypressed" in data[i]:
+					onclick = 1
+				elif "broadcast" in data[i] or "condition" in data[i]:
+					userdefined = 1
+		except:
+			pass
 	return greenflags + onclick + userdefined
-	
-	
+
+
 
 
 def getAbstraction(line):
 	events = 0
 	clones = 0
 	definitions = 0
-	if line["events"] > 1:
-		events = 1
-	if line["clones"] >= 1:
-		clones = 1
-	if line["definitions"] >= 1:
-		definitions = 1	
-	return events + clones + definitions 
-		
-	
-	
-	
-	
-	
-	
-	
+	data = line["data"].split()
+	for i in range(len(data)-1):
+		try:
+			if int(data[i+1].strip(",}")) > 0:
+				if "event" in data[i]:
+					events = 1
+				if "clones" in data[i]:
+					clones = 1
+				if "definitions" in data[i]:
+					definitions = 1
+		except:
+			pass
+	return events + clones + definitions
+
+
+
+
+
+
+
+
 	#line['events']
