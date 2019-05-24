@@ -77,13 +77,13 @@ def preProcessAll(blocksInFile, blocksOutFile, spriteInFile, spriteOutFile):
 	try:
 		if preProcess(blocksInFile,blocksOutFile,processBlocks.process):
 			error
-		print "Fields Logical Thinking, Flow Control, User Interactivity"
+		print "Fields Logical Thinking, Flow Control, User Interactivity, Synchronization"
 		print "Saved to " + blocksOutFile
 	except:
 		print "Failure: Resultant File " + blocksOutFile
 		print "May Be Missing or Incomplete"
 
-	print ""
+	"""print ""
 	print "Generating CSV File from " + spriteInFile
 	try:
 		if preProcess(spriteInFile,spriteOutFile,code_stacks.getCodeStackFields):
@@ -92,7 +92,7 @@ def preProcessAll(blocksInFile, blocksOutFile, spriteInFile, spriteOutFile):
 		print "Saved to " + spriteOutFile
 	except:
 		print "Failure: Resultant File " +spriteOutFile
-		print "May Be Missing or Incomplete"
+		print "May Be Missing or Incomplete" """
 
 
 
