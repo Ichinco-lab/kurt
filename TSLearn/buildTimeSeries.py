@@ -44,10 +44,10 @@ def buildTimeSeries(projFile, userFile, min_projects):
 			userTable.update({user['user_id']:[[]]})
 		finally:
 			del proj['project_id']
-			for key in proj.keys():			
+			for key in proj.keys():
 				userTable[user['user_id']][0].append(proj[key])
-	print("BuildTimeSeries[2/5] Projects linked to user ids:")			
-	############################Remove Time Series#############################		
+	print("BuildTimeSeries[2/5] Projects linked to user ids:")
+	############################Remove Time Series#############################
 	print("BuildTimeSeries[3/5] Removing time series with less than " + str(min_projects) + " projects:")
 	formattedData = [[],[]]
 	for user in userTable.keys():
@@ -63,8 +63,9 @@ def buildTimeSeries(projFile, userFile, min_projects):
 	############################Return Result##################################
 	print("BuildTimeSeries[5/5] Returning time series dataset:")
 	return formattedData
-	
-	
+
+"""The following functions wrap the functionality
+of cpickle to save or load the timeseries and its key"""
 def saveTSKey(filename, timeSeries):
 	with open(filename, 'wb') as f:
    		pickle.dump(timeSeries[0], f)
@@ -72,18 +73,21 @@ def loadTSKey(filename):
 	f = open(filename, 'rb')
 	key = pickle.load(f)
 	return key
-def saveTSdata(filename, timeSeries):
+def saveTSData(filename, timeSeries):
 	with open(filename, 'wb') as f:
    		pickle.dump(timeSeries[1], f)
-def loadTSdata(filename):
+def loadTSData(filename):
 	f = open(filename, 'rb')
 	data = pickle.load(f)
-	return data	
-	
-	
-	
-	
-	
-	
-	
-print(len(buildTimeSeries("out3.csv","out4.csv",500)[0]))
+	return data
+
+
+
+
+
+
+
+#timeseriesDataset = buildTimeSeries("ProcessedData/project_blocks.csv", "ProcessedData/projects.csv",500)
+#print("Time Series Dataset Contains " + str(len(timeseriesDataset[0])) + " time series")
+#saveTSData("TSdataset/data.txt",timeseriesDataset)
+#saveTSKey("TSdataset/key.txt",timeseriesDataset)

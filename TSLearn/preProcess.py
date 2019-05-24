@@ -47,12 +47,6 @@ def preProcess(rawFile, outFile, process):
 			writerInit = True
 		writer.writerow(outLine)
 
-
-
-
-
-
-
 	try: #Closing the file reader and writer
 		if writerInit:
 			rawWriter.close()
@@ -63,37 +57,36 @@ def preProcess(rawFile, outFile, process):
 		return 1
 	return 0
 
-#used for testing
-#preProcess("project_sprites/sprites.csv","out.csv",processThing)
-def preProcessAll():
-	print "Generating CSV File for Logical Thinking, Flow Control, and User Interactivity:"
-	preProcess("RawData/project_blocks/project_blocks.csv","ProcessedData/logical_thinking_flow.csv",processBlocks.process)
-	#print "Generating CSV File for Abstraction and Parallelism"
-	#preProcess("RawData/stack.csv","ProcessedData/abstraction_parallelism.csv",code_stacks.getCodeStackFields)
-	print "Finished All:"
 
-def preProcessAll(blocksInFile, blocksOutFile, spriteInFile, spriteOutFile):
+
+
+"""
+	Generates preprocessed verions of blocksInFile and stackInFile
+	and saves the results in bllocksOutFile and stackOutFile respectively
+"""
+def preProcessAll(blocksInFile, blocksOutFile, stackInFile, stackOutFile):
 	print "Generating CSV File from " + blocksInFile
 	try:
 		if preProcess(blocksInFile,blocksOutFile,processBlocks.process):
 			error
-		print "Fields Logical Thinking, Flow Control, User Interactivity, Synchronization"
+		print "Fields Logical Thinking, Flow Control, User Interactivity,"
+		print "       Synchronization, Data Representation"
 		print "Saved to " + blocksOutFile
 	except:
 		print "Failure: Resultant File " + blocksOutFile
 		print "May Be Missing or Incomplete"
 
-	"""print ""
-	print "Generating CSV File from " + spriteInFile
+	print ""
+	print "Generating CSV File from " + stackInFile
 	try:
-		if preProcess(spriteInFile,spriteOutFile,code_stacks.getCodeStackFields):
+		if preProcess(stackInFile,stackOutFile,code_stacks.getCodeStackFields):
 			error
 		print "Fields Abstraction and Parallelism"
-		print "Saved to " + spriteOutFile
+		print "Saved to " + stackOutFile
 	except:
-		print "Failure: Resultant File " +spriteOutFile
-		print "May Be Missing or Incomplete" """
+		print "Failure: Resultant File " +stackOutFile
+		print "May Be Missing or Incomplete" 
 
 
 
-preProcessAll("RawData/project_blocks/project_blocks.csv","ProcessedData/logical_thinking_flow.csv","RawData/stack.csv","ProcessedData/abstraction_parallelism.csv")
+#preProcessAll("RawData/project_blocks/project_blocks.csv","ProcessedData/logical_thinking_flow.csv","RawData/stack.csv","ProcessedData/abstraction_parallelism.csv")

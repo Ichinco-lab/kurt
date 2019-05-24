@@ -58,7 +58,7 @@ def generateprojectsFile(headCSV, nonHeadCSVS, outFile):
 				del line['project_id']
 				maxLength += len(line.keys())
 				break
-	writeInit = False	
+	writeInit = False
 	for projectKey in projects.keys():
 		if len(projects[projectKey].keys()) is maxLength:
 			if writer is None:
@@ -77,6 +77,4 @@ def generateprojectsFile(headCSV, nonHeadCSVS, outFile):
 
 
 
-generateprojectsFile("out.csv", ["out2.csv"], "out3.csv")
-
-		
+#generateprojectsFile("ProcessedData/logical_thinking_flow.csv", ["ProcessedData/abstraction_parallelism.csv"], "ProcessedData/project_blocks.csv")

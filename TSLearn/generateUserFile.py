@@ -28,16 +28,21 @@ def generateUserFile(userFile,projectFile,outFile):
 		reader = csv.DictReader(rawReader)
 		rawWriter = open(outFile, "w")
 		writer = None
-		
+
 	except:
 		print( "Processor Failed To Open User File.")
 		print( "Exiting Function With Value of 1.")
 		return 1
 	users = {}
 	for line in reader:
-		users.update({line['project_id']:{'project_id':line['project_id'], 'user_id':line['user_id']}})
+		users.update({
+			line['project_id']:{
+				'project_id':line['project_id'],
+				'user_id':line['user_id']
+			}
+		})
 	rawReader.close()
-		
+
 	try: #Opening the file reader and writer
 		rawReader = open(projectFile,"r")
 		reader = csv.DictReader(rawReader)
@@ -45,8 +50,8 @@ def generateUserFile(userFile,projectFile,outFile):
 		print( "Processor Failed To Open Project File.")
 		print( "Exiting Function With Value of 1.")
 		return 1
-		
-	writerInit = False	
+
+	writerInit = False
 	for line in reader:
 		if writer is None:
 			writer = csv.DictWriter(rawWriter, fieldnames=users[line['project_id']].keys())
@@ -61,10 +66,7 @@ def generateUserFile(userFile,projectFile,outFile):
 		print( "Processor Failed To Close File.")
 		print( "Exiting Function With Value of 1.")
 		return 1
-	return 0	
+	return 0
 
 
-generateUserFile("projects/projects.csv","out3.csv", "out4.csv")
-
-
-
+#generateUserFile("RawData/projects/projects.csv", "ProcessedData/project_blocks.csv","ProcessedData/projects.csv")
