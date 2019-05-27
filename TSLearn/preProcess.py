@@ -85,7 +85,7 @@ def preProcessAll(blocksInFile, blocksOutFile, stackInFile, stackOutFile):
 		print "Saved to " + stackOutFile
 	except:
 		print "Failure: Resultant File " +stackOutFile
-		print "May Be Missing or Incomplete" 
+		print "May Be Missing or Incomplete"
 
 
 
