@@ -65,27 +65,27 @@ def preProcess(rawFile, outFile, process):
 	and saves the results in bllocksOutFile and stackOutFile respectively
 """
 def preProcessAll(blocksInFile, blocksOutFile, stackInFile, stackOutFile):
-	print "Generating CSV File from " + blocksInFile
+	print( "Generating CSV File from " + blocksInFile)
 	try:
 		if preProcess(blocksInFile,blocksOutFile,processBlocks.process):
 			error
-		print "Fields Logical Thinking, Flow Control, User Interactivity,"
-		print "       Synchronization, Data Representation"
-		print "Saved to " + blocksOutFile
+		print( "Fields Logical Thinking, Flow Control, User Interactivity,")
+		print("       Synchronization, Data Representation")
+		print("Saved to " + blocksOutFile)
 	except:
-		print "Failure: Resultant File " + blocksOutFile
-		print "May Be Missing or Incomplete"
+		print("Failure: Resultant File " + blocksOutFile)
+		print("May Be Missing or Incomplete")
 
-	print ""
-	print "Generating CSV File from " + stackInFile
+	print("")
+	print("Generating CSV File from " + stackInFile)
 	try:
 		if preProcess(stackInFile,stackOutFile,code_stacks.getCodeStackFields):
 			error
-		print "Fields Abstraction and Parallelism"
-		print "Saved to " + stackOutFile
+		print( "Fields Abstraction and Parallelism")
+		print( "Saved to " + stackOutFile)
 	except:
-		print "Failure: Resultant File " +stackOutFile
-		print "May Be Missing or Incomplete"
+		print("Failure: Resultant File " +stackOutFile)
+		print("May Be Missing or Incomplete")
 
 
 

@@ -45,18 +45,14 @@ def getAbstraction(line):
 			value = int(data[i+1].strip(",}"))
 		except:
 			value = 0
-		if  value >= 2:
-			return 1
-		elif value >= 1:
+		if value >= 1:
 			if "event" in data[i]:
-				events += value
-			#if "clones" in data[i]:#clones don't exist in scratch 1.4
-			#	clones = 1
-			#if "definitions" in data[i]:#definition blocks don't exist  yet either
-			#	definitions = 1
-		#except:
-		#	pass
-	return  int(events > 1)
+				events = 1
+			if "clones" in data[i]:
+				clones = 1
+			if "definitions" in data[i]:
+				definitions = 1
+	return  events + clones + definitions
 
 
 

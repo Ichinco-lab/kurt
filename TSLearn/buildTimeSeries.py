@@ -87,7 +87,7 @@ def loadTSData(filename):
 
 
 
-#timeseriesDataset = buildTimeSeries("ProcessedData/project_blocks.csv", "ProcessedData/projects.csv",500)
+#timeseriesDataset = buildTimeSeries("ProcessedData/project_blocks.csv", "ProcessedData/projects.csv",7)
 #print("Time Series Dataset Contains " + str(len(timeseriesDataset[0])) + " time series")
-#saveTSData("TSdataset/data.txt",timeseriesDataset)
-#saveTSKey("TSdataset/key.txt",timeseriesDataset)
+#saveTSData("TSDataset/data.txt",timeseriesDataset)
+#saveTSKey("TSDataset/key.txt",timeseriesDataset)
