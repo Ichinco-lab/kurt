@@ -63,15 +63,26 @@ def getBlockCountV2(inFile,outFile):
                     if ord(datastring[i]) > 127:
                         datastring = datastring[0:i] + '_' + datastring[i+1:]
                 data = json.loads(datastring,strict=False)
-            bracketStack = 0
             calls = 0
         #Every time there is a new line character there is a block
-        for char in data['stack_squeak']:
-            if char in "\n":
-                calls += 1
-        try:
-            formatted_data[str(data['project_id'])] += calls
-        except:
-            formatted_data.update({str(data['project_id']):calls})
+            for char in data['stack_squeak']:
+                if char in "\n":
+                    calls += 1
+            try:
+                formatted_data[str(data['project_id'])] += calls
+            except:
+                formatted_data.update({str(data['project_id']):calls})
+
+
+
+
+
+
+
+
+
+
+
+
 
 getBlockCountV2("RawData/project_block_stacks.json","RawData/project_blocks/blockCounts.csv")#'RawData/project_block_stacks.json')
